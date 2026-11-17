@@ -126,6 +126,7 @@ ol.list{list-style:none;margin:0;padding:0}
 .paper h4{margin:0;font-size:1.03rem;font-weight:600;line-height:1.45;max-width:58em}
 .paper h4 a{text-decoration:none;background-image:linear-gradient(var(--accent),var(--accent));background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .2s}
 .paper h4 a:hover{background-size:100% 1px;color:var(--accent)}
+.paper h4 .tr{display:block;font-weight:500;font-size:.92em;color:var(--muted);margin-top:2px}
 .paper h4 .arr{color:var(--muted);font-weight:400;font-size:.85em}
 .paper .au{font-size:.92rem;color:var(--muted)}
 .paper .au mark{background:none;color:var(--ink);font-weight:600;box-shadow:inset 0 -.32em 0 color-mix(in srgb,var(--field) 32%,transparent)}
@@ -697,7 +698,8 @@ function renderList(){
     const f=pf(p), u=safeUrl(p.url), j=journal(f.v);
     const au=String(f.a||"").split(" · ").map(n=>ME.test(n.trim())?`<mark>${esc(n)}</mark>`:esc(n)).join(" · ");
     const title=u?`<a href="${esc(u)}">${esc(f.t)} <span class="arr" aria-hidden="true">↗</span></a>`:esc(f.t);
-    html+=`<li class="paper"><h4>${title}</h4><div class="au">${au}</div><div class="meta"><i>${esc(j)}</i><span>${esc(String(f.v||"").slice(j.length+2))}</span>${u?`<a href="${esc(u)}">${esc(linkLabel(u))}</a>`:""}</div>
+    const trans=(lang==="ko"&&p.ja&&p.ja.t&&p.ko&&p.ko.t)?`<span class="tr">${esc(p.ko.t)}</span>`:"";
+    html+=`<li class="paper"><h4>${title}${trans}</h4><div class="au">${au}</div><div class="meta"><i>${esc(j)}</i><span>${esc(String(f.v||"").slice(j.length+2))}</span>${u?`<a href="${esc(u)}">${esc(linkLabel(u))}</a>`:""}</div>
     <div class="acts edit-only"><button type="button" class="mini" data-edit="pub" data-id="${esc(p.id)}">수정</button><button type="button" class="mini danger" data-del="pub" data-id="${esc(p.id)}">삭제</button></div></li>`;
   }
   $("list").innerHTML=html;
