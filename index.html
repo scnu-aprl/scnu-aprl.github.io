@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>농업정책연구실 · Agricultural Policy Research Lab (APRL)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a field-survey ledger. Header rail, two-column hero with a plotted paddy map,
+   then sections ruled like a notebook; publications get a year rail that doubles as a bar chart. */
+:root{
+  --paper:#F3F4EF;
+  --surface:#FBFBF8;
+  --ink:#18201B;
+  --muted:#5B655D;
+  --line:#D5DAD1;
+  --accent:#2C4A9E;      /* survey-ink indigo */
+  --field:#B8901C;       /* ripened barley */
+  --accent-soft:#E3E8F5;
+  --sprout:#3D7A4C;
+  --display:"Archivo","IBM Plex Sans KR","IBM Plex Sans JP",system-ui,sans-serif;
+  --body:"IBM Plex Sans","IBM Plex Sans KR","IBM Plex Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.1875rem; --s2:1.5rem; --s3:2.125rem; --s4:clamp(2.75rem,6.4vw,5rem);
+  --gutter:clamp(16px,4vw,48px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111513; --surface:#171C19; --ink:#E7EBE4; --muted:#9BA59C; --line:#2B322D;
+    --accent:#93A8EE; --field:#D8B54A; --accent-soft:#1D2540; --sprout:#7CC28F; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111513; --surface:#171C19; --ink:#E7EBE4; --muted:#9BA59C; --line:#2B322D;
+  --accent:#93A8EE; --field:#D8B54A; --accent-soft:#1D2540; --sprout:#7CC28F; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;font-weight:700}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;min-height:64px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.brand svg{flex:none}
+.brand b{display:block;font-family:var(--display);font-weight:700;font-size:var(--s0);letter-spacing:.005em;line-height:1.2}
+.brand span{display:block;font-size:var(--s-1);color:var(--muted);line-height:1.3}
+nav.main{display:flex;gap:4px;flex-wrap:wrap}
+nav.main a{text-decoration:none;font-size:var(--s-1);font-weight:500;padding:6px 10px;border-radius:6px;color:var(--muted)}
+nav.main a:hover{color:var(--ink);background:var(--accent-soft)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.lang button{all:unset;cursor:pointer;font-size:var(--s-1);padding:4px 12px;border-radius:999px;color:var(--muted);font-weight:500}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,72px);align-items:center;padding:clamp(40px,7vw,96px) 0 clamp(32px,5vw,64px)}
+.eyebrow{font-family:var(--mono);font-size:var(--s-1);color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:var(--s4);line-height:.98;font-stretch:82%;font-weight:800;letter-spacing:-.015em}
+:lang(ko) .hero h1,:lang(ja) .hero h1{font-family:var(--body);font-weight:600;letter-spacing:-.03em;line-height:1.12}
+.hero .lede{margin-top:24px;font-size:var(--s1);color:var(--muted);max-width:34em;line-height:1.55}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:var(--s-1);padding:11px 18px;border-radius:8px;border:1px solid var(--ink)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.solid:hover{background:var(--accent);border-color:var(--accent)}
+.btn.ghost:hover{background:var(--surface)}
+.plot{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--surface);aspect-ratio:5/4;overflow:hidden}
+.plot canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.plot figcaption{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:.72rem;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px;border:1px solid var(--line)}
+figure{margin:0}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.stat{padding:20px 20px 22px 0;display:flex;flex-direction:column;gap:4px}
+.stat+.stat{padding-left:20px;border-left:1px solid var(--line)}
+.stat b{font-family:var(--display);font-size:var(--s3);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.05;font-stretch:85%}
+.stat span{font-size:var(--s-1);color:var(--muted)}
+
+/* sections */
+section.block{padding:clamp(56px,8vw,104px) 0 0}
+.head{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;margin-bottom:36px}
+.head .num{font-family:var(--mono);font-size:var(--s-1);color:var(--muted)}
+.head h2{font-size:var(--s3);letter-spacing:-.01em;font-stretch:90%}
+.head .sub{grid-column:2;color:var(--muted);font-size:var(--s-1);margin-top:-12px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.head .sub a{color:var(--accent);font-weight:500;text-decoration:none}
+.head .sub a:hover{text-decoration:underline}
+
+/* research */
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.area{padding:28px 28px 32px 0;display:flex;flex-direction:column;gap:14px}
+.area+.area{padding-left:28px;border-left:1px solid var(--line)}
+.area .idx{font-family:var(--mono);font-size:var(--s-1);color:var(--field);font-weight:500}
+.area h3{font-size:var(--s1);line-height:1.3;font-family:var(--body);font-weight:600}
+.area p{color:var(--muted);font-size:.95rem;max-width:36em}
+.area .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.area .tags span{font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+
+/* publications */
+.pubs{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+.rail{position:sticky;top:88px;display:flex;flex-direction:column;gap:2px}
+.rail button{all:unset;cursor:pointer;display:grid;grid-template-columns:44px 1fr 22px;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;font-family:var(--mono);font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+.rail button:hover{background:var(--surface);color:var(--ink)}
+.rail button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.rail button[aria-pressed="true"] .bar i{background:var(--field)}
+.rail .bar{height:6px;background:transparent;border-radius:3px;overflow:hidden}
+.rail .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.rail .all{grid-template-columns:1fr 22px;font-family:var(--body);font-weight:500;margin-bottom:6px}
+.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;font:inherit;font-size:.95rem;padding:11px 14px 11px 38px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.count{font-family:var(--mono);font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+.note{font-size:var(--s-1);color:var(--muted);margin-bottom:12px}
+ol.list{list-style:none;margin:0;padding:0}
+.yr{font-family:var(--display);font-weight:700;font-size:var(--s2);font-stretch:85%;padding:28px 0 8px;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;font-variant-numeric:tabular-nums}
+.yr small{font-family:var(--mono);font-size:var(--s-1);font-weight:400;color:var(--muted)}
+.paper{padding:18px 0;border-bottom:1px solid var(--line);display:grid;gap:6px}
+.paper h4{margin:0;font-size:1.03rem;font-weight:600;line-height:1.45;max-width:58em}
+.paper h4 a{text-decoration:none;background-image:linear-gradient(var(--accent),var(--accent));background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .2s}
+.paper h4 a:hover{background-size:100% 1px;color:var(--accent)}
+.paper h4 .arr{color:var(--muted);font-weight:400;font-size:.85em}
+.paper .au{font-size:.92rem;color:var(--muted)}
+.paper .au mark{background:none;color:var(--ink);font-weight:600;box-shadow:inset 0 -.32em 0 color-mix(in srgb,var(--field) 32%,transparent)}
+.paper .meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:var(--s-1);color:var(--muted);align-items:baseline}
+.paper .meta i{font-style:italic}
+.paper .meta a{font-family:var(--mono);font-size:.76rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:1px 8px;border-radius:4px;word-break:break-all}
+.paper .meta a:hover{border-color:var(--accent)}
+.empty{padding:40px 0;color:var(--muted)}
+
+/* people */
+.people{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+.director{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:28px;display:grid;grid-template-columns:88px 1fr;gap:24px;align-items:start}
+.avatar{width:88px;height:88px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--accent);font-stretch:85%}
+.role{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--field);font-weight:500}
+.director h3{font-size:var(--s2);margin:4px 0 10px;font-stretch:90%}
+.director p{color:var(--muted);font-size:.95rem}
+.director .mail{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:.85rem;color:var(--accent);text-decoration:none}
+.director .mail:hover{text-decoration:underline}
+.stack{display:grid;gap:12px}
+.slot{border:1px dashed var(--line);border-radius:12px;padding:18px 20px}
+.slot h4{margin:0 0 4px;font-size:.95rem;font-weight:600}
+.slot p{font-size:var(--s-1);color:var(--muted)}
+
+/* notice + grad */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.board{border-top:1px solid var(--ink)}
+.board .empty{padding:24px 0;border-bottom:1px solid var(--line);font-size:.95rem;display:flex;gap:12px;align-items:center}
+.board .empty svg{color:var(--muted);flex:none}
+.grad{background:var(--ink);color:var(--paper);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.grad h3{font-size:var(--s2);font-stretch:90%}
+.grad p{opacity:.82;max-width:38em}
+.grad .btn{border-color:var(--paper);background:var(--paper);color:var(--ink);align-self:flex-start}
+.grad .btn:hover{background:var(--field);border-color:var(--field)}
+.grad .addr{font-family:var(--mono);font-size:var(--s-1);opacity:.7}
+
+/* admin */
+body:not(.editing) .edit-only{display:none !important}
+.edit-toggle{all:unset;cursor:pointer;font-size:var(--s-1);font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--accent);color:var(--accent)}
+.edit-toggle[aria-pressed="true"]{background:var(--accent);color:var(--paper)}
+.edit-toggle[hidden]{display:none}
+.editbar{background:var(--accent);color:var(--paper);font-size:var(--s-1)}
+.editbar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;min-height:40px;flex-wrap:wrap}
+.editbar button{all:unset;cursor:pointer;text-decoration:underline;font-weight:600}
+.mini{font:inherit;font-size:.75rem;border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:3px 10px;border-radius:5px;cursor:pointer}
+.mini:hover{color:var(--ink);border-color:var(--ink)}
+.mini.danger:hover{color:#B3261E;border-color:#B3261E}
+.add{font:inherit;font-size:var(--s-1);font-weight:600;cursor:pointer;width:100%;padding:12px;border:1.5px dashed var(--accent);border-radius:10px;background:transparent;color:var(--accent)}
+.add:hover{background:var(--accent-soft)}
+.acts{display:flex;gap:6px;margin-top:4px}
+.slot-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.mlist{display:grid;gap:14px}
+.mcard{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
+.mcard .ph{width:52px;height:52px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;overflow:hidden}
+.mcard .ph img{width:100%;height:100%;object-fit:cover}
+.mcard b{display:block;font-size:.95rem}
+.mcard span{display:block;font-size:var(--s-1);color:var(--muted)}
+ol.notices{list-style:none;margin:0;padding:0}
+.notice{padding:18px 0;border-bottom:1px solid var(--line);display:grid;gap:6px}
+.notice .d{font-family:var(--mono);font-size:var(--s-1);color:var(--muted);display:flex;gap:10px;align-items:center}
+.notice .pin{font-family:var(--body);font-size:.7rem;font-weight:600;color:var(--field);border:1px solid var(--field);border-radius:999px;padding:0 8px}
+.notice h4{margin:0;font-size:1.02rem;font-weight:600}
+.notice p{color:var(--muted);font-size:.93rem;white-space:pre-wrap}
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(640px,calc(100vw - 32px));max-height:calc(100vh - 48px)}
+dialog::backdrop{background:rgba(10,14,12,.45)}
+dialog form{display:flex;flex-direction:column;max-height:calc(100vh - 50px)}
+.dh{padding:20px 24px 12px;font-family:var(--display);font-size:var(--s2);font-weight:700;font-stretch:90%}
+.db{padding:4px 24px 16px;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.db .full{grid-column:1/-1}
+.db label{display:flex;flex-direction:column;gap:4px;font-size:var(--s-1);font-weight:500}
+.db .grp{grid-column:1/-1;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--accent);text-transform:uppercase;margin-top:6px;border-top:1px solid var(--line);padding-top:12px}
+.db input,.db select,.db textarea{font:inherit;font-size:.92rem;font-weight:400;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink)}
+.db textarea{min-height:96px;resize:vertical}
+.db .chk{flex-direction:row;align-items:center;gap:8px}
+.db .msg{grid-column:1/-1;font-size:.95rem;color:var(--muted)}
+.df{padding:14px 24px 20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--line)}
+.df button{font:inherit;font-size:var(--s-1);font-weight:600;padding:9px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink)}
+.df button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.df button.danger{background:#B3261E;color:#fff;border-color:#B3261E}
+.df button:disabled{opacity:.5;cursor:wait}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;font-size:var(--s-1);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (max-width:520px){.db{grid-template-columns:1fr}}
+
+
+/* hero title */
+.hero h1.kotitle{font-family:var(--body);font-weight:600;letter-spacing:-.04em;line-height:1.05;font-stretch:normal}
+.subtitle{font-family:var(--display);font-weight:600;font-stretch:80%;font-size:var(--s2);letter-spacing:.01em;color:var(--accent);margin-top:10px}
+
+/* research cards */
+.areas2{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.acard{border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column}
+.acard .art{position:relative;aspect-ratio:16/10;background:var(--tint);display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.acard .art svg{width:78%;height:auto;overflow:visible}
+.acard .art .letter{position:absolute;top:14px;left:16px;font-family:var(--mono);font-size:.75rem;color:var(--ink);opacity:.7;letter-spacing:.06em}
+.acard .art .cnt{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:.72rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.acard .bd{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.acard .kick{font-size:var(--s-1);font-weight:600;color:var(--hue)}
+.acard .tag{font-size:1.38rem;line-height:1.3;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.acard p.d{color:var(--muted);font-size:.93rem}
+.acard .kw{display:flex;gap:6px;flex-wrap:wrap}
+.acard .kw span{font-size:.75rem;border-radius:999px;padding:3px 10px;background:var(--tint);color:var(--ink)}
+.acard .rep{border-top:1px dashed var(--line);padding-top:12px;margin-top:auto;display:grid;gap:8px}
+.acard .rep b{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.acard .rep a{font-size:.86rem;line-height:1.4;text-decoration:none;display:grid;grid-template-columns:38px 1fr;gap:6px}
+.acard .rep a i{font-style:normal;font-family:var(--mono);color:var(--muted);font-size:.78rem;padding-top:1px}
+.acard .rep a:hover span{color:var(--hue);text-decoration:underline}
+.acard .go{font:inherit;font-size:var(--s-1);font-weight:600;cursor:pointer;border:1px solid var(--hue);color:var(--hue);background:transparent;border-radius:8px;padding:9px 14px;align-self:flex-start}
+.acard .go:hover{background:var(--hue);color:var(--surface)}
+.acard.a{--hue:var(--field);--tint:color-mix(in srgb,var(--field) 16%,var(--surface))}
+.acard.b{--hue:var(--accent);--tint:color-mix(in srgb,var(--accent) 13%,var(--surface))}
+.acard.c{--hue:var(--sprout);--tint:color-mix(in srgb,var(--sprout) 15%,var(--surface))}
+.achips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.achips button{all:unset;cursor:pointer;font-size:var(--s-1);padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.achips button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);font-weight:600;background:var(--surface)}
+.achips button i{font-style:normal;font-family:var(--mono);margin-right:6px;color:var(--hue,var(--muted))}
+
+/* professor */
+.prof{display:grid;grid-template-columns:300px 1fr;gap:clamp(28px,5vw,64px);align-items:start}
+.pcard{position:sticky;top:96px;display:grid;gap:14px}
+.pphoto{aspect-ratio:4/5;border-radius:16px;background:var(--accent-soft);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line)}
+.pphoto img{width:100%;height:100%;object-fit:cover}
+.pphoto span{font-size:4rem;font-weight:600;color:var(--accent)}
+.pcard h3{font-family:var(--body);font-size:var(--s2);font-weight:600;letter-spacing:-.02em}
+.pcard .alt{color:var(--muted);font-size:var(--s-1);margin-top:-10px}
+.pcard .pos{font-size:.93rem}
+.pcard .links{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:.82rem}
+.pcard .links a{color:var(--accent);text-decoration:none}
+.pcard .links a:hover{text-decoration:underline}
+.cv{display:grid;gap:34px}
+.cv .bio{font-size:var(--s1);line-height:1.65;max-width:40em;white-space:pre-wrap}
+.cvb h4{margin:0 0 10px;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500;padding-bottom:8px;border-bottom:1px solid var(--ink)}
+.cvb ol{list-style:none;margin:0;padding:0}
+.cvb li{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.cvb li .p{font-family:var(--mono);font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.cvb li.np{grid-template-columns:1fr}
+.cv .hint{border:1.5px dashed var(--line);border-radius:12px;padding:18px 20px;color:var(--muted);font-size:.93rem}
+.people2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.db .multi{grid-column:1/-1;display:flex;gap:14px;flex-wrap:wrap;font-size:var(--s-1)}
+.db .multi label{flex-direction:row;align-items:center;gap:6px;font-weight:400}
+.db .help{grid-column:1/-1;font-size:.78rem;color:var(--muted);margin-top:-6px}
+@media (max-width:920px){
+  .areas2,.prof,.people2{grid-template-columns:1fr}
+  .pcard{position:static;grid-template-columns:120px 1fr;align-items:start}
+  .pphoto{grid-row:span 5}
+  .cvb li{grid-template-columns:1fr;gap:2px}
+}
+
+/* views */
+.view{display:none}
+.view.on{display:block}
+section.view.block{padding-top:clamp(40px,6vw,72px);min-height:60vh}
+nav.main a[aria-current="page"]{color:var(--ink);background:var(--accent-soft);font-weight:600}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,48px);margin-top:clamp(40px,6vw,72px)}
+.hwide{grid-column:1/-1}
+.hh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:6px}
+.hh h2{font-size:var(--s2);font-stretch:90%}
+.hh a{font-size:var(--s-1);font-weight:600;color:var(--accent);text-decoration:none}
+.hh a:hover{text-decoration:underline}
+.hareas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.ha{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
+.ha:hover{border-color:var(--hue)}
+.ha .art{background:var(--tint);border-radius:10px;aspect-ratio:16/10;display:grid;place-items:center}
+.ha .art svg{width:88%;height:auto}
+.ha b{display:block;font-size:var(--s-1);color:var(--hue);font-weight:600}
+.ha span{display:block;font-size:.95rem;font-weight:600;line-height:1.35;margin-top:2px}
+.ha.a{--hue:var(--field);--tint:color-mix(in srgb,var(--field) 16%,var(--surface))}
+.ha.b{--hue:var(--accent);--tint:color-mix(in srgb,var(--accent) 13%,var(--surface))}
+.ha.c{--hue:var(--sprout);--tint:color-mix(in srgb,var(--sprout) 15%,var(--surface))}
+ol.hpubs,ol.hnotes{list-style:none;margin:0 0 20px;padding:0}
+.hpubs li,.hnotes li{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:.93rem;line-height:1.45}
+.hpubs li i,.hnotes li i{font-style:normal;font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:2px}
+.hnotes li i{font-size:.74rem}
+.hnotes li{grid-template-columns:86px 1fr}
+.hpubs a,.hnotes a{text-decoration:none}
+.hpubs a:hover,.hnotes a:hover{color:var(--accent);text-decoration:underline}
+.hpubs small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.hnotes .none{grid-template-columns:1fr;color:var(--muted)}
+@media (max-width:920px){.hgrid,.hareas{grid-template-columns:1fr}}
+
+.rlead{font-size:clamp(1.15rem,1.6vw,1.4rem);line-height:1.6;max-width:44em;margin:-8px 0 40px;color:var(--muted);text-wrap:pretty}
+.rlead strong,.hlead strong{display:block;color:var(--ink);font-weight:600;font-size:1.12em;margin-bottom:6px;letter-spacing:-.01em}
+.hlead{margin:14px 0 4px;color:var(--muted);max-width:52em;line-height:1.6}
+.hgrid{margin-top:clamp(28px,4vw,48px)}
+
+.projs{margin-top:clamp(48px,7vw,80px)}
+ol.plist{list-style:none;margin:0;padding:0}
+.plist li{display:grid;grid-template-columns:64px 150px 1fr auto;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.plist .y{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.plist .r{font-size:.72rem;font-weight:600;border-radius:999px;padding:2px 10px;justify-self:start;white-space:nowrap}
+.plist .r.lead{background:var(--ink);color:var(--paper)}
+.plist .r.part{border:1px solid var(--line);color:var(--muted)}
+.plist .t{font-weight:600;line-height:1.45}
+.plist .t small{display:block;font-weight:400;color:var(--muted);font-size:.85rem;margin-top:3px}
+.plist .ar{display:flex;gap:4px}
+.plist .ar span{font-family:var(--mono);font-size:.7rem;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:600}
+.plist .ar .A{background:color-mix(in srgb,var(--field) 22%,var(--surface));color:var(--field)}
+.plist .ar .B{background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent)}
+.plist .ar .C{background:color-mix(in srgb,var(--sprout) 18%,var(--surface));color:var(--sprout)}
+.plist li .acts{grid-column:3/-1}
+.plist.compact li{grid-template-columns:64px 150px 1fr}
+.plist.compact .ar{display:none}
+@media (max-width:720px){.plist li,.plist.compact li{grid-template-columns:52px 1fr}.plist .r{grid-column:2}.plist .t,.plist .ar,.plist li .acts{grid-column:2}}
+
+.pilab{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:8px 16px 8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;font-weight:600;font-size:.98rem}
+.pilab .dot{width:8px;height:8px;border-radius:50%;background:var(--field)}
+.pilab:hover{border-color:var(--ink)}
+
+.subtitle .abbr{font-family:var(--mono);font-size:.6em;font-weight:500;letter-spacing:.08em;border:1px solid currentColor;border-radius:6px;padding:1px 8px;margin-left:8px;vertical-align:.2em}
+footer{margin-top:clamp(72px,10vw,120px);border-top:1px solid var(--line);padding:28px 0 40px;font-size:var(--s-1);color:var(--muted)}
+footer .wrap{display:flex;gap:16px 32px;flex-wrap:wrap;justify-content:space-between}
+footer a{color:var(--muted)}
+
+@media (max-width:920px){
+  .hero{grid-template-columns:1fr}
+  .plot{aspect-ratio:16/9}
+  .areas{grid-template-columns:1fr}
+  .area,.area+.area{padding:24px 0;border-left:0;border-bottom:1px solid var(--line)}
+  .head{grid-template-columns:1fr;gap:6px}
+  .head .sub{grid-column:1;margin-top:4px}
+  .pubs{grid-template-columns:1fr}
+  .rail{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .rail button,.rail .all{grid-template-columns:auto auto;border:1px solid var(--line);margin:0}
+  .rail .bar{display:none}
+  .people,.split{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(3){padding-left:0;border-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media (max-width:420px){
+  .director{grid-template-columns:1fr}
+  nav.main{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Agricultural Policy Research Lab">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="1" width="32" height="32" rx="8" fill="var(--ink)"/><g stroke="var(--paper)" stroke-width="1.6" fill="none"><path d="M9 9h16v16H9z"/><path d="M17 9v16M9 17h16"/></g><path d="M11 11h4v4h-4z" fill="var(--field)"/></svg>
+      <div><b lang="ko">농업정책연구실</b><span data-i="brandSub">Agricultural Policy Research Lab (APRL) · Sunchon National University</span></div>
+    </a>
+    <nav class="main" aria-label="Sections">
+      <a href="#home" data-i="navHome">Home</a>
+      <a href="#research" data-i="navResearch">Research</a>
+      <a href="#professor" data-i="navProf">Professor</a>
+      <a href="#publications" data-i="navPubs">Publications</a>
+      <a href="#members" data-i="navMembers">Members</a>
+      <a href="#notices" data-i="navNotices">Notices</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ko" aria-pressed="false">한국어</button>
+      <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
+    </div>
+    <button type="button" class="edit-toggle" id="editToggle" aria-pressed="false" hidden>편집</button>
+  </div>
+  <div class="editbar edit-only"><div class="wrap"><span>편집 모드 · 저장하면 바로 홈페이지에 반영됩니다</span><button type="button" id="editOff">편집 끝내기</button></div></div>
+</header>
+
+<main id="top" class="wrap">
+<section class="view on" data-view="home">
+  <div class="hero">
+    <div>
+      <div class="eyebrow" data-i="dept">Department of Agricultural Economics</div>
+      <h1 lang="ko" class="kotitle">농업정책연구실</h1>
+      <p class="subtitle">Agricultural Policy Research Lab <span class="abbr">APRL</span></p>
+      <a class="pilab" href="#professor"><span class="dot" aria-hidden="true"></span><span data-i="profLab">Prof. Ji-Bum Um</span><span aria-hidden="true">→</span></a>
+      <p class="lede" data-i="lede">We study how young farmers enter agriculture and take over farms, how growers organize to farm together, and what drives the adoption of new technologies.</p>
+      <div class="cta">
+        <a class="btn solid" href="#publications"><span data-i="ctaPubs">Browse publications</span> <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href="#members" data-i="ctaGrad">Graduate study</a>
+      </div>
+    </div>
+    <figure class="plot">
+      <canvas id="fields" aria-hidden="true"></canvas>
+      <figcaption data-i="plotCap">Paddy parcels · survey grid</figcaption>
+    </figure>
+  </div>
+
+  
+  <div class="hgrid">
+    <div class="hblock hwide">
+      <div class="hh"><h2 data-i="navResearch">Research</h2><a href="#research" data-i="more">More →</a></div>
+      <p class="hlead"><strong data-i="rl1"></strong> <span data-i="rl2"></span></p>
+      <div class="hareas" id="homeAreas"></div>
+    </div>
+    <div class="hblock hwide">
+      <div class="hh"><h2 data-i="projTitle">Major projects</h2><a href="#research" data-i="more">More →</a></div>
+      <ol class="plist compact" id="homeProj"></ol>
+    </div>
+    <div class="hblock">
+      <div class="hh"><h2 data-i="recentPubs">Recent papers</h2><a href="#publications" data-i="allPubs">All papers →</a></div>
+      <ol class="hpubs" id="homePubs"></ol>
+    </div>
+    <div class="hblock">
+      <div class="hh"><h2 data-i="navNotices">Notices</h2><a href="#notices" data-i="more">More →</a></div>
+      <ol class="hnotes" id="homeNotices"></ol>
+      <div class="grad" id="graduate">
+        <div class="role" style="color:var(--field)" data-i="ctaGrad">Graduate study</div>
+        <h3 data-i="gradTitle">Join the lab</h3>
+        <p data-i="gradText"></p>
+        <a class="btn" href="mailto:umjibum@scnu.ac.kr?subject=Graduate%20study%20inquiry" data-i="gradBtn">Email the lab</a>
+        <span class="addr">umjibum@scnu.ac.kr</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="block view" data-view="research" id="research" aria-labelledby="h-research">
+    <div class="head"><span class="num" data-i="crumb">Lab</span><h2 id="h-research" data-i="navResearch">Research</h2></div>
+    <p class="rlead"><strong data-i="rl1"></strong> <span data-i="rl2"></span></p>
+    <div class="areas2" id="areas"></div>
+    <div class="projs">
+      <div class="hh"><h2 data-i="projTitle">Major projects</h2><button type="button" class="mini edit-only" data-add="project">+ 프로젝트 추가</button></div>
+      <ol class="plist" id="projList"></ol>
+    </div>
+  </section>
+
+  <section class="block view" data-view="professor" id="professor" aria-labelledby="h-prof">
+    <div class="head"><span class="num" data-i="crumb">Lab</span><h2 id="h-prof" data-i="navProf">Professor</h2></div>
+    <div class="prof" id="profBox"></div>
+  </section>
+
+  <section class="block view" data-view="publications" id="publications" aria-labelledby="h-pubs">
+    <div class="head">
+      <span class="num" data-i="crumb">Lab</span><h2 id="h-pubs" data-i="navPubs">Publications</h2>
+      <div class="sub"><span id="pubSummary"></span><a href="https://scholar.google.com/citations?user=tq0IlRKsSKIC&amp;hl=en" data-i="scholar">Google Scholar profile ↗</a></div>
+    </div>
+    <div class="pubs">
+      <div class="rail" id="rail" role="group" aria-label="Filter by year"></div>
+      <div>
+        <div class="tools">
+          <label class="search" for="q">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input id="q" type="search" autocomplete="off">
+          </label>
+          <span class="count" id="count" aria-live="polite"></span>
+          <button type="button" class="btn solid edit-only" data-add="pub">+ 논문 추가</button>
+        </div>
+        <div class="achips" id="achips" role="group" aria-label="Filter by research area"></div>
+        <p class="note" data-i="pubNote"></p>
+        <ol class="list" id="list"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block view" data-view="members" id="members" aria-labelledby="h-members">
+    <div class="head"><span class="num" data-i="crumb">Lab</span><h2 id="h-members" data-i="navMembers">Members</h2></div>
+    <div class="people2">
+      <div class="slot"><div class="slot-h"><h4 data-i="grads">Graduate students</h4><button type="button" class="mini edit-only" data-add="student">+ 대학원생 추가</button></div><div class="mlist" id="students"></div></div>
+      <div class="slot"><div class="slot-h"><h4 data-i="alumni">Alumni</h4><button type="button" class="mini edit-only" data-add="alumni">+ 졸업생 추가</button></div><div class="mlist" id="alumniList"></div></div>
+    </div>
+    <div style="margin-top:24px">      <div class="grad">
+        <div class="role" style="color:var(--field)" data-i="ctaGrad">Graduate study</div>
+        <h3 data-i="gradTitle">Join the lab</h3>
+        <p data-i="gradText"></p>
+        <a class="btn" href="mailto:umjibum@scnu.ac.kr?subject=Graduate%20study%20inquiry" data-i="gradBtn">Email the lab</a>
+        <span class="addr">umjibum@scnu.ac.kr</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block view" data-view="notices" id="notices" aria-labelledby="h-notices">
+    <div class="head"><span class="num" data-i="crumb">Lab</span><h2 id="h-notices" data-i="navNotices">Notices</h2></div>
+    <div class="board">
+        <div class="edit-only" style="padding-top:14px"><button type="button" class="add" data-add="notice">+ 공지 추가</button></div>
+        <ol class="notices" id="noticeList"></ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-i="footer">Agricultural Policy Research Lab · Department of Agricultural Economics · Sunchon National University</span>
+    <a href="https://scholar.google.com/citations?user=tq0IlRKsSKIC&amp;hl=en">Google Scholar</a>
+  </div>
+</footer>
+
+<dialog id="dlg"><form method="dialog" id="dlgForm" novalidate><div class="dh" id="dlgTitle"></div><div class="db" id="dlgBody"></div><div class="df"><button type="button" id="dlgCancel">취소</button><button type="submit" class="primary" id="dlgOk">저장</button></div></form></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const T={
+en:{profLab:"Led by Prof. Ji-Bum Um",projTitle:"Major projects",roleLead:"Principal investigator",rolePart:"Co-investigator",rl1:"Our lab is concerned with the structural problems of agriculture.",rl2:"Using field survey data, we examine who will carry out agricultural production in the future, how farmers organize to farm together, and under what conditions new technologies take hold in the field.",navHome:"Home",more:"More →",recentPubs:"Recent papers",allPubs:"All papers →",crumb:"APRL",brandSub:"Agricultural Policy Research Lab (APRL) · Sunchon National University",navProf:"Professor",
+researchSub:"Three questions we keep returning to in the field",
+a1k:"Young farmers & succession",a1tag:"Who will farm next, and how they take over",
+a2k:"Farm organizations",a2tag:"How farmers organize to work land together",
+a3k:"Smart farming & adoption",a3tag:"What it takes for new technology to reach the field",
+aShort:["Young farmers","Farm organizations","Smart farming"],areaAll:"All areas",
+rep:"Selected papers",relBtn:n=>`See all ${n} related papers →`,cnt:n=>`${n} papers`,
+cvEdu:"Education",cvCareer:"Career",cvAct:"Service & affiliations",cvAward:"Awards",cvCourse:"Teaching",
+labName:"Agricultural Policy Research Lab",univ:"Sunchon National University",navResearch:"Research",navPubs:"Publications",navMembers:"Members",navNotices:"Notices",
+dept:"Department of Agricultural Economics",lede:"We study how young farmers enter agriculture and take over farms, how growers organize to farm together, and what drives the adoption of new technologies.",
+ctaPubs:"Browse publications",ctaGrad:"Graduate study",plotCap:"Paddy parcels · survey grid",
+stPapers:"peer-reviewed papers",stYears:"years of publishing",stJournals:"journals",stCo:"co-authors",
+a1t:"Young Farmers and Farm Succession",a1d:"We study how young people enter and establish themselves in farming, and what helps farms transfer management to the next generation.",
+a2t:"Agricultural Corporations and Collective Farming Organizations",a2d:"We examine how agricultural corporations and collective farming organizations share labor, land, and machinery, and what helps them sustain their operations.",
+a3t:"Smart Farming and Technology Adoption",a3d:"We study what influences farmers’ adoption of drones, automated irrigation controls, auto-guidance systems, and low-carbon technologies.",
+a1:["Farm entry","Settlement","Succession","Farm successors","Education needs"],a2:["Agricultural corporations","Collective farming","Shared machinery","Cooperatives","Village projects"],a3:["Drones","Auto-guidance","Automated irrigation","Low-carbon tech","Agrivoltaics"],
+pubSummary:(n,a,b)=>`${n} publications · ${a}–${b}`,scholar:"Google Scholar profile ↗",search:"Search titles, authors, journals",
+count:(n)=>`${n} shown`,all:"All",pubNote:"Titles follow KCI or the publisher where verified. Full-text access depends on the publisher.",
+doi:"DOI",rec:"Article record",pdf:"Read PDF",none:"No publications match this search.",
+initials:"JU",director:"Lab director",dirName:"Ji-Bum Um, PhD",dirPos:"Associate Professor, Department of Agricultural Economics, Sunchon National University",dirPhd:"PhD, Graduate School of Agriculture, Hokkaido University",
+grads:"Graduate students",gradsEmpty:"Student profiles have yet to be added.",alumni:"Alumni",alumniEmpty:"Alumni profiles have yet to be added.",
+noticeEmpty:"No announcements have been posted yet.",gradTitle:"Join the lab",
+gradText:"If you are interested in graduate study or research supervision, email a brief introduction, your research interests, and your intended entry term. International applicants are welcome to include their planned application route.",
+gradBtn:"Email the lab",footer:"Agricultural Policy Research Lab (Prof. Ji-Bum Um) · Department of Agricultural Economics · Sunchon National University"},
+ko:{profLab:"엄지범 교수 연구실",projTitle:"주요 프로젝트",roleLead:"연구책임자",rolePart:"공동연구원",rl1:"우리 연구실은 농업의 구조 문제에 관심을 갖고 있습니다.",rl2:"누가 앞으로 농업생산을 담당할지, 농업인은 어떻게 조직되어 함께 농사를 짓는지, 새로운 기술은 어떤 조건에서 현장에 자리 잡는지를 현장 조사 자료로 분석합니다.",navHome:"홈",more:"더 보기 →",recentPubs:"최근 논문",allPubs:"전체 논문 →",crumb:"농업정책연구실",brandSub:"Agricultural Policy Research Lab (APRL) · 국립순천대학교",navProf:"교수 소개",
+researchSub:"현장에서 계속 붙들고 있는 세 가지 질문",
+a1k:"청년농업인 · 영농승계",a1tag:"누가 다음 농업을 짓고, 어떻게 이어받는가",
+a2k:"농업법인 · 공동영농조직",a2tag:"농업인은 어떻게 함께 땅을 일구는가",
+a3k:"스마트농업 · 기술 도입",a3tag:"새 기술이 들녘에 닿기까지 필요한 것",
+aShort:["청년농·영농승계","농업법인·공동영농","스마트농업·기술도입"],areaAll:"전체 분야",
+rep:"대표 논문",relBtn:n=>`관련 논문 ${n}편 모두 보기 →`,cnt:n=>`논문 ${n}편`,
+cvEdu:"학력",cvCareer:"경력",cvAct:"학회 · 대외활동",cvAward:"수상",cvCourse:"담당 과목",
+labName:"농업정책연구실",univ:"국립순천대학교",navResearch:"연구 분야",navPubs:"논문",navMembers:"구성원",navNotices:"공지",
+dept:"농업경제학과",lede:"청년농업인의 취농과 영농승계, 농업법인과 공동영농조직의 운영, 스마트농업 기술의 도입을 연구합니다.",
+ctaPubs:"논문 보기",ctaGrad:"대학원 진학",plotCap:"논 필지 · 조사 격자",
+stPapers:"학술논문",stYears:"년간 연구",stJournals:"게재 학술지",stCo:"공동저자",
+a1t:"청년농업인과 영농승계",a1d:"청년농업인의 취농과 정착 과정을 살펴보고, 농업경영이 다음 세대로 이어지도록 돕는 조건을 분석합니다.",
+a2t:"농업법인과 공동영농조직",a2d:"농업법인과 공동영농조직이 인력, 농지, 농기계를 공동으로 활용하는 방식과 지속적인 운영에 필요한 조건을 연구합니다.",
+a3t:"스마트농업과 기술 도입",a3d:"농업용 드론, 자동물꼬장치, 자동조향시스템, 저탄소 농업기술의 도입에 영향을 미치는 요인을 분석합니다.",
+a1:["취농","지역 정착","경영이양","승계농","교육요구도"],a2:["농업법인","들녘경영체","농기계 공동이용","협업","마을공동사업"],a3:["드론","자동조향","자동물꼬","저탄소 기술","영농형 태양광"],
+pubSummary:(n,a,b)=>`논문 ${n}편 · ${a}–${b}`,scholar:"Google Scholar 프로필 ↗",search:"제목, 저자, 학술지 검색",
+count:(n)=>`${n}편 표시`,all:"전체",pubNote:"국내 논문은 국문 서지정보를 표시합니다. 해외 간행물의 국문 제목은 번역 표기입니다. 원문 열람 조건은 학술지마다 다릅니다.",
+doi:"DOI",rec:"논문 상세",pdf:"PDF 보기",none:"검색 결과가 없습니다.",
+initials:"엄",director:"지도교수",dirName:"엄지범 박사",dirPos:"국립순천대학교 농업경제학과 부교수",dirPhd:"홋카이도대학교 대학원농학원 박사",
+grads:"대학원생",gradsEmpty:"대학원생 소개가 아직 등록되지 않았습니다.",alumni:"졸업생",alumniEmpty:"졸업생 소개가 아직 등록되지 않았습니다.",
+noticeEmpty:"등록된 공지가 없습니다.",gradTitle:"연구실 합류 안내",
+gradText:"대학원 진학이나 연구지도를 희망하는 분은 간단한 자기소개, 관심 연구 주제, 희망 입학 시기를 이메일로 보내주세요. 외국인 지원자는 지원 예정 전형도 함께 알려주세요.",
+gradBtn:"이메일로 문의",footer:"농업정책연구실 (엄지범 교수) · 국립순천대학교 농업경제학과"},
+ja:{profLab:"厳 智凡 教授 研究室",projTitle:"主要プロジェクト",roleLead:"研究代表者",rolePart:"研究分担者",rl1:"当研究室は農業の構造問題に関心を持っています。",rl2:"誰がこれからの農業生産を担うのか、農業者はどのように組織され共に営農するのか、新しい技術はどのような条件で現場に定着するのかを、現地調査データに基づいて分析しています。",navHome:"ホーム",more:"もっと見る →",recentPubs:"最近の論文",allPubs:"すべての論文 →",crumb:"農業政策研究室",brandSub:"Agricultural Policy Research Lab (APRL) · 国立順天大学校",navProf:"教員紹介",
+researchSub:"現場で問い続けている三つのテーマ",
+a1k:"若手農業者・経営継承",a1tag:"誰が次の農業を担い、どう引き継ぐのか",
+a2k:"農業法人・共同営農組織",a2tag:"農業者はどのように共に土地を耕すのか",
+a3k:"スマート農業・技術導入",a3tag:"新しい技術が田畑に届くまでに必要なこと",
+aShort:["若手農業者","農業法人・共同営農","スマート農業"],areaAll:"すべての分野",
+rep:"代表論文",relBtn:n=>`関連論文${n}件をすべて見る →`,cnt:n=>`論文${n}件`,
+cvEdu:"学歴",cvCareer:"職歴",cvAct:"学会・社会活動",cvAward:"受賞",cvCourse:"担当科目",
+labName:"農業政策研究室",univ:"国立順天大学校",navResearch:"研究分野",navPubs:"研究業績",navMembers:"研究室メンバー",navNotices:"お知らせ",
+dept:"農業経済学科",lede:"若手農業者の就農と農業経営の継承、農業法人と共同営農組織の運営、スマート農業技術の導入を研究しています。",
+ctaPubs:"研究業績を見る",ctaGrad:"大学院進学",plotCap:"水田区画・調査グリッド",
+stPapers:"査読論文",stYears:"年間の研究",stJournals:"掲載誌",stCo:"共著者",
+a1t:"若手農業者と農業経営の継承",a1d:"若手農業者の就農と定着の過程を調べ、農業経営を次世代に継承するための条件を分析します。",
+a2t:"農業法人と共同営農組織",a2d:"農業法人や共同営農組織が労働力、農地、農業機械を共同で活用する仕組みと、事業を継続するための条件を研究します。",
+a3t:"スマート農業と技術導入",a3d:"農業用ドローン、自動水管理装置、自動操舵システム、低炭素農業技術の導入を左右する要因を分析します。",
+a1:["就農","地域定着","経営継承","後継者","教育ニーズ"],a2:["農業法人","集落営農","農業機械の共同利用","協業","村落共同事業"],a3:["ドローン","自動操舵","自動水管理","低炭素技術","営農型太陽光"],
+pubSummary:(n,a,b)=>`論文${n}件 · ${a}–${b}`,scholar:"Google Scholar プロフィール ↗",search:"タイトル・著者・掲載誌で検索",
+count:(n)=>`${n}件を表示`,all:"すべて",pubNote:"論文名はKCIまたは出版社の表記に従っています。全文の閲覧条件は学術誌によって異なります。",
+doi:"DOI",rec:"論文詳細",pdf:"PDFを読む",none:"該当する論文はありません。",
+initials:"厳",director:"指導教員",dirName:"厳 智凡（Ji-Bum Um）",dirPos:"国立順天大学校 農業経済学科 准教授",dirPhd:"北海道大学 大学院農学院 博士",
+grads:"大学院生",gradsEmpty:"大学院生のプロフィールは準備中です。",alumni:"修了生",alumniEmpty:"修了生のプロフィールは準備中です。",
+noticeEmpty:"現在、お知らせはありません。",gradTitle:"研究室への参加",
+gradText:"大学院への進学や研究指導を希望する方は、簡単な自己紹介、関心のある研究テーマ、希望する入学時期をメールでお知らせください。留学生の方は、出願予定の選考区分もお知らせいただけます。",
+gradBtn:"メールで問い合わせ",footer:"農業政策研究室（厳 智凡 教授）· 国立順天大学校 農業経済学科"}
+};
+
+const P=[
+["2026","Analysis of Farming Satisfaction According to Farm Successors’ Characteristics in Farm Management Succession","Geum-Yeong Hwang · Ji-Bum Um","Korean Journal of Agricultural Management and Policy, 53(2), 377–413","https://doi.org/10.30805/KJAMP.2026.53.2.377","승계농의 경영이양 특성에 따른 영농만족 요인 분석","황금영 · 엄지범","농업경영·정책연구, 53(2), 377–413"],
+["2026","Educational Needs of Young and Prospective Farmers by Commodity Type","Won-Bin Kim · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 33(2), 73–93","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003357008","청년농업인과 예비농업인의 교육요구도 분석","김원빈 · 엄지범","농촌지도와 개발, 33(2), 73–93"],
+["2026","Factors Influencing the Adoption Intention of Smart Agriculture Auto-guidance Systems","Ji-Min Seo · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 33(1), 1–19","https://doi.org/10.12653/jecd.2026.33.1.0001","스마트농업용 자동조향시스템의 수용의도에 영향을 미치는 요인 분석","서지민 · 엄지범","농촌지도와 개발, 33(1), 1–19"],
+["2026","An Empirical Study on Differences in Youth Employment Perception and Skill Transfer Intention by Capability Level of Agricultural Corporations","Ji-Min Seo · Ji-Bum Um","Journal of the Korea Academia-Industrial Cooperation Society, 27(1), 911–920","https://doi.org/10.5762/KAIS.2026.27.1.911","농업법인 역량 수준별 청년고용 인식 및 기술전수 의향의 차이에 관한 실증연구","서지민 · 엄지범","한국산학기술학회논문지, 27(1), 911–920"],
+["2025","A study on paddy farmers' willingness to transition to floury rice cultivation","Won-Bin Kim · Ji-Min Seo · Ji-Bum Um","Korea Journal of Organic Agriculture, 33(4), 425–443","https://doi.org/10.11625/KJOA.2025.33.4.425","수도작 농가의 가루쌀 전환의향 연구","김원빈 · 서지민 · 엄지범","한국유기농업학회지, 33(4), 425–443"],
+["2025","A Structural Relationship among Consumer Value, Attitude, and Purchase Behavior for the Low-Carbon Product Certified Foods","Kyung-Jun Cho · Kyung-Hwan Song · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 32(3), 151–163","https://doi.org/10.12653/jecd.2025.32.3.0151","저탄소제품 인증 식품의 소비가치, 태도, 구매행동의 구조관계 분석","조경준 · 송경환 · 엄지범","농촌지도와 개발, 32(3), 151–163"],
+["2025","Analysis of Management Efficiency and Productivity of Wheat Farm","Geum-Yeong Hwang · Ji-Bum Um","Journal of the Korea Academia-Industrial Cooperation Society, 26(5), 450–458","https://doi.org/10.5762/KAIS.2025.26.5.450","밀 재배 농가의 경영 효율성 및 생산성 분석","황금영 · 엄지범","한국산학기술학회논문지, 26(5), 450–458"],
+["2025","Factors Influencing the Acceptance Intention of Low-Methane Feed Among Hanwoo Cattle Farmers","Kyung-Jun Cho · Ji-Min Seo · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 32(1), 27–42","https://doi.org/10.12653/jecd.2025.32.1.0027","한우농가의 저메탄 사료에 대한 수용의도 영향관계 분석","조경준 · 서지민 · 엄지범","농촌지도와 개발, 32(1), 27–42"],
+["2025","A Study on the Regional Settlement Status of Young Farmers in Jeollanam-do","Ji-Won Yu · Choon-Soo Lee · Ji-Bum Um · Yun-Hee Jo · Kyung-Hwan Song","Korea Journal of Organic Agriculture, 33(1), 39–63","https://doi.org/10.11625/kjoa.2025.33.1.39","전남 지역 청년농업인의 지역 정착 실태 분석","유지원 · 이춘수 · 엄지범 · 조윤희 · 송경환","한국유기농업학회지, 33(1), 39–63"],
+["2025","Analysis of the Texture and Preference for Senior-Friendly Foods using Protein Sources - Focus on Older Adults in Jellanam-do -","Bo-Ram Yoon · A-Young Han · Ji-Bum Um · In-Yong Kim","Journal of the East Asian Society of Dietary Life, 35(1), 20–28","https://doi.org/10.17495/easdl.2025.2.35.1.20","국내 단백질 급원 고령친화식품의 물성 및 기호도 조사 - 전라남도 거주 고령자 대상 -","윤보람 · 한아영 · 엄지범 · 김인용","동아시아식생활학회지, 35(1), 20–28"],
+["2025","Analysis of Policy Factors for Enhancing the Acceptance of Renewable Energy in Agriculture","Ji-Bum Um · Jae-Hwan Han","Journal of the Korea Academia-Industrial Cooperation Society, 26(1), 125–131","https://doi.org/10.5762/KAIS.2025.26.1.125","농업분야 재생에너지 수용성 제고를 위한 정책적 요인 분석","엄지범 · 한재환","한국산학기술학회논문지, 26(1), 125–131"],
+["2024","A Study on Organizational Commitment of Members in Food Crop Cooperatives: A Transaction Cost Theory Perspective","Won-Bin Kim · Ji-Bum Um","Korean Journal of Agricultural Management and Policy, 51(3), 489–523","https://doi.org/10.30805/KJAMP.2024.51.3.489","들녘경영체 구성원의 조직몰입에 관한 연구: 거래비용이론 관점에서","김원빈 · 엄지범","농업경영·정책연구, 51(3), 489–523"],
+["2024","A Structural Relationship among Consumers' Consumption Values, Purchase Attitudes, and Purchase Intentions toward Upcycled Food Products","Geum-Yeong Hwang · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 31(3), 139–152","https://doi.org/10.12653/jecd.2024.31.3.0139","업사이클링 푸드의 소비가치가 소비자의 구매태도와 구매의도에 미치는 영향","황금영 · 엄지범","농촌지도와 개발, 31(3), 139–152"],
+["2024","A Structural Analysis of Factors Influencing Farm Management Succession Using the Theory of Planned Behavior","Ju-Young An · Ji-Bum Um","Korean Journal of Food Marketing Economics, 41(3), 165–191","https://doi.org/10.47085/KJFME.41.3.8","계획행동이론을 이용한 농업인의 경영이양 영향요인 구조 분석 연구","안주영 · 엄지범","식품유통연구, 41(3), 165–191"],
+["2024","Farmers' Acceptance Intentions for Automated Irrigation Systems","Ji-Min Seo · Ju-Young An · Geum-Yeong Hwang · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 31(2), 85–101","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003097799","자동물꼬장치에 대한 농업인의 수용의도 분석","서지민 · 안주영 · 황금영 · 엄지범","농촌지도와 개발, 31(2), 85–101"],
+["2024","A Structural Relationship among Consumers' Health-related Lifestyle, Purchasing Attitude, and Purchase Intention in the Rice-based Bakery Products Market","Geum-Yeong Hwang · Ju-Young An · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 31(1), 13–26","https://doi.org/10.12653/jecd.2024.31.1.0013","쌀 베이커리 시장에서 소비자의 건강라이프스타일, 구매태도, 구매의도의 구조관계 분석","황금영 · 안주영 · 엄지범","농촌지도와 개발, 31(1), 13–26"],
+["2023","Analysis of Management Performance of Young Farmers in Smart Farm Innovation Valley","Geun-Ho Shim · Geum-Yeong Hwang · So-Young Lee · Ji-Bum Um","Journal of Practical Agriculture & Fisheries Research, 25(4), 67–77","https://doi.org/10.23097/JPAF:2023.25(4).67","스마트팜 혁신밸리 입주 청년농업인의 경영성과 분석","심근호 · 황금영 · 이소영 · 엄지범","현장농업연구지, 25(4), 67–77"],
+["2023","An Analysis of the Influence Factors of Farmers' Acceptance Intention on Low Carbon Agricultural Technology Bio-Char","Ju-Young An · Geum-Yeong Hwang · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 30(4), 199–212","https://doi.org/10.12653/jecd.2023.30.4.0199","저탄소 농업기술 바이오차에 대한 농업인의 수용의도 영향 요인 분석","안주영 · 황금영 · 엄지범","농촌지도와 개발, 30(4), 199–212"],
+["2023","A Study of Consumers' Intentions to Purchase Alternative Meats Using the Theory of Planned Behavior","Won-Bin Kim · Ju-Young An · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 30(3), 143–155","https://doi.org/10.12653/jecd.2023.30.3.0143","계획된 행동이론(TPB)을 이용한 소비자의 대체육 구매의도에 관한 연구","김원빈 · 안주영 · 엄지범","농촌지도와 개발, 30(3), 143–155"],
+["2023","Factors Influencing intention to farming jobs in Agricultural Corporations","Ju-Young An · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 30(2), 53–67","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002978847","농업법인을 통한 청년농업인의 취농의향 영향요인","안주영 · 엄지범","농촌지도와 개발, 30(2), 53–67"],
+["2023","Analyzing Factors Affecting Farmers’ Participation in Agrivoltaics Village Cooperative Projects","Won-Bin Kim · Ji-Bum Um","Journal of the Korea Academia-Industrial Cooperation Society, 24(6), 312–320","https://doi.org/10.5762/KAIS.2023.24.6.312","영농형 태양광 마을공동사업에 대한 농가 참여 의향 요인분석","김원빈 · 엄지범","한국산학기술학회논문지, 24(6), 312–320"],
+["2023","The Impact of Satisfaction with Processed Food made of Local Agricultural Products on the Revisit Intention towards Tourist Destinations - the case of Jeonju Hanok Village -","Geun-Ho Shim · Won-Bin Kim · Ji-Bum Um","Journal of Regional Studies, 31(2), 115–138","https://doi.org/10.22921/jrs.2023.31.2.005","관광지에 있어 지역농산물을 활용한 가공식품 만족이 재방문의도에 미치는 영향 - 전주 한옥마을을 사례로 -","심근호 · 김원빈 · 엄지범","지역사회연구, 31(2), 115–138"],
+["2023","Analysis on the Factors Influencing Purchase Intention of Consumers for Plant-Based Milk","Ju-Young An · Won-Bin Kim · Ji-Bum Um","Korean Journal of Food Marketing Economics, 40(2), 109–133","https://doi.org/10.47085/KJFME.40.2.6","식물성 대체 음료에 대한 소비자 구매의도 요인분석","안주영 · 김원빈 · 엄지범","식품유통연구, 40(2), 109–133"],
+["2023","A Study on Farmers’ Acceptance Intention of Agrophotovoltaics －Focusing on the Extended Unified Theory of Acceptance and Use of Technology 2－","Won-Bin Kim · Ju-Young An · Geun-Ho Shim · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 30(1), 15–29","https://doi.org/10.12653/jecd.2023.30.1.0015","농업인의 영농형 태양광 수용의도에 관한 연구 －확장된 통합기술수용이론(UTAUT2)을 중심으로－","김원빈 · 안주영 · 심근호 · 엄지범","농촌지도와 개발, 30(1), 15–29"],
+["2023","Analysis of Farmer’s Intention to Adoption Renewable Energy","Yun-Kyung So · Jae-Hwan Han · Won-Bin Kim · Ji-Bum Um","Korean Journal of Agricultural Management and Policy, 50(1), 188–210","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002946641","농가의 신재생에너지 도입 의향 분석","소윤경 · 한재환 · 김원빈 · 엄지범","농업경영·정책연구, 50(1), 188–210"],
+["2022","Factors Influencing Entrepreneurial Intention of Young Entrepreneurs Preparing to Operate Smart Farms －The Mediating Effect of Entrepreneurship and Entrepreneurial Opportunity Recognition－","Ji-Bum Um · Myung-Eun Park","Journal of Agricultural Extension & Community Development, 29(4), 251–264","https://doi.org/10.12653/jecd.2022.29.4.0251","스마트팜 예비 청년창업농의 창업의지 영향요인 분석 －기업가정신과 창업기회인식의 매개효과－","엄지범 · 박명은","농촌지도와 개발, 29(4), 251–264"],
+["2022","Analysis on Productivity and Efficiency of Blueberry Farming","Won-Bin Kim · Ji-Bum Um","Korea Journal of Organic Agriculture, 30(4), 499–516","https://doi.org/10.11625/kjoa.2022.30.4.499","블루베리 농가의 경영 효율성 및 생산성 분석","김원빈 · 엄지범","한국유기농업학회지, 30(4), 499–516"],
+["2022","A Study on the Effect of Store Attributes of Local Food on User Satisfaction","Chan-Ju Yoo · Ji-Bum Um","Journal of the Korea Academia-Industrial Cooperation Society, 23(6), 230–236","https://doi.org/10.5762/KAIS.2022.23.6.230","로컬푸드 직매장 속성이 이용만족에 미치는 영향","유찬주 · 엄지범","한국산학기술학회논문지, 23(6), 230–236"],
+["2022","A Study on the Improvement of Field Application for Agricultural Extension Project: Focused on JeollaNamdo","Hyun-Taek Lim · Wang-Gyu Han · Ji-Bum Um","Journal of Regional Studies, 30(2), 125–151","https://doi.org/10.22921/jrs.2022.30.2.006","농촌지도사업의 현장 적용성 제고에 관한 연구 - 전라남도를 중심으로 -","임현택 · 한왕규 · 엄지범","지역사회연구, 30(2), 125–151"],
+["2022","Forecasting of Domestic Beef Demand Using Exponential Smoothing Model","Woo-Seok Kim · Ji-Bum Um","Korea Journal of Organic Agriculture, 30(2), 231–239","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002841895","지수평활모형을 이용한 국내 소고기 수요예측","김우석 · 엄지범","한국유기농업학회지, 30(2), 231–239"],
+["2021","An Analysis of Performance by Agricultural Agencies - Case Study of Machinery Operators -","Chan-Ju Yoo · Ji-Bum Um","Korea Journal of Organic Agriculture, 29(3), 397–414","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002746818","고령·영세농을 위한 농작업 대행사업의 만족요인 분석 - 농기계작업단을 사례로 -","유찬주 · 엄지범","한국유기농업학회지, 29(3), 397–414"],
+["2021","Consumer Characteristics in Terms of Pet Food Selection Attributes","Myung-Eun Park · Ji-Bum Um","Journal of Agricultural Extension & Community Development, 28(2), 85–98","https://doi.org/10.12653/jecd.2021.28.2.0085","펫푸드(반려동물 식품) 선택속성에 대한 소비자 특성 분석","박명은 · 엄지범","농촌지도와 개발, 28(2), 85–98"],
+["2021","Analysis of Educational Needs for Young Startup Farmers in Smart Farm : With a Focus on Derivation of Curricular Priorities","Byung-Ok Lim · Sung-Il Hwang · Ji-Bum Um","Journal of Regional Studies, 29(1), 137–161","https://doi.org/10.22921/jrs.2021.29.1.006","스마트팜 청년 창업농의 교육 요구 분석 - 교육과정 우선순위 도출을 중심으로 -","임병옥 · 황성일 · 엄지범","지역사회연구, 29(1), 137–161"],
+["2020","Needs Analysis of Farming Practice to Strengthen the Competence of Farm Successors","Ji-Bum Um","Journal of Agricultural Extension & Community Development, 27(4), 159–171","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002676850","영농승계자 역량강화를 위한 영농실습 요구도 분석","엄지범","농촌지도와 개발, 27(4), 159–171"],
+["2020","Impact on Acceptance Intentions According to the Farming Practice of Young Farmers","Ji-Bum Um · Myung-Eun Park","Korean Journal of Food Marketing Economics, 37(3), 51–80","https://doi.org/10.47085/KJFME.37.3.3","청년농업인에 있어 영농실습 특성이 수용의도에 미치는 영향","엄지범 · 박명은","식품유통연구, 37(3), 51–80"],
+["2020","Agricultural Environment and Peasant Movement in Colonial Iksan","Ji-Bum Um · Soon-Yeol Soh","Journal of Regional Studies, 28(2), 119–141","https://doi.org/10.22921/jrs.2020.28.2.006","근대 익산의 농업환경과 농민운동","엄지범 · 소순열","지역사회연구, 28(2), 119–141"],
+["2020","Analysis of Efficiency of Cropping System for Substitute Crops - Focus on Farms with Cropping Systems for Soybeans + Barley -","Ji-Bum Um · Chan-Ju Yoo","Journal of the Korea Academia-Industrial Cooperation Society, 21(2), 145–150","https://doi.org/10.5762/KAIS.2020.21.2.145","논타작물 작부체계의 효율성 분석: 콩+보리 작부체계 농가를 중심으로","엄지범 · 유찬주","한국산학기술학회논문지, 21(2), 145–150"],
+["2020","Profitability Analysis Based on Cropping System of the Land Use Changes in Paddy Field","Yu, Chan Ju · Jibum UM · Hyeon Seok Ko · Sang-Youn Park","Journal of the Korea Academia-Industrial Cooperation Society, 21(1), 216–222","https://doi.org/10.5762/KAIS.2020.21.1.216","논 타작물 재배 작부체계별 수익성 분석","유찬주 · 엄지범 · 고현석 · 박상연","한국산학기술학회논문지, 21(1), 216–222"],
+["2019","Study on Enhancement of the Sustainability of the Village Creation Project - Focus on the Case of the Imsil Cheese Village -","Soon-Seop Shim · Ji-Bum Um","Korean Journal of Agricultural Management and Policy, 46(4), 714–742","https://doi.org/10.30805/KJAMP.2019.46.4.714","마을만들기 사업의 지속성 제고에 관한 연구- 임실치즈마을을 사례로 -","심순섭 · 엄지범","농업경영·정책연구, 46(4), 714–742"],
+["2019","An Aspect of Japanese Immigrant Villages Analyzed from Personal Record: Focusing on the Yamagata Village (山形村) of Fuji Farm Community (不二農村)","Ji-Bum Um · Soon-Yeol Soh","The Korean Journal of Agricultural Economics, 60(3), 27–53","https://doi.org/10.24997/KJAE.2019.60.3.27","개인기록을 통해 본 일본인 이민농촌의 한 단면: 불이농촌의 야마가타촌(山形村)을 중심으로","엄지범 · 소순열","농업경제연구, 60(3), 27–53"],
+["2018","Characteristics of Farmers Who Keep Business Records for Farm Planning","Ji-Bum Um · Jin-Woo Yoon · Chan-Ju Yoo","Korean Journal of Agricultural Management and Policy, 45(1), 108–127","https://doi.org/10.30805/KJAMP.2018.45.1.108","영농설계 활성화를 위한 경영기록 농업인 특성 분석: 경영관리적 접근","엄지범 · 윤진우 · 유찬주","농업경영·정책연구, 45(1), 108–127"],
+["2018","Formation and Organization Principle of Agricultural Corporations in South Korea","Ji-Bum Um","Memoirs of the Research Faculty of Agriculture, Hokkaido University, 35(2), 9–65","https://eprints.lib.hokudai.ac.jp/repo/huscap/all/70635/Um_35_2.pdf","한국 농업법인의 형성·전개와 조직 원리","엄지범","北大農研邦文紀要, 35(2), 9–65"],
+["2017","An Explanation of the Regional Agriculture Problem Structure for the Establishment of Regional Agriculture Management Plan －Focusing on the Case of Hongseong-gun－","Ji-Bum Um · Young-Mo Hwang","Korean Journal of Food Marketing Economics, 34(4), 31–47","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002301715","농정거버넌스의 지역농업 매니지먼트 계획수립에 있어 지역농업 문제구조의 해명－홍성군 사례를 중심으로－","엄지범 · 황영모","식품유통연구, 34(4), 31–47"],
+["2017","Development Conditions for an Agricultural Corporation and Regeneration of Rural Society in South Korea: A Case Study of Community Building in the Sixth Industrialization","Jibum Um · Shunsuke Yanagimura · Soon-Yeol Soh","Journal of Rural Economics, 88(4), 455–460","https://doi.org/10.11472/nokei.88.455","한국 농업법인의 발전 조건과 농촌사회의 재생","엄지범 · 柳村俊介 · 소순열","農業経済研究, 88(4), 455–460"],
+["2017","Organizing an Incorporated Farm Based on Teulnyeok in Korea: A Case of F Farm Founded by Small Number of Farmers Operating a Large Farm","Jibum Um · Shunsuke Yanagimura · Ga-ok Cho","Japanese Journal of Farm Management, 54(4), 102–107","https://doi.org/10.11300/fmsj.54.4_102","한국 들녘 기반 농업법인의 조직화","엄지범 · 柳村俊介 · 조가옥","農業経営研究, 54(4), 102–107"],
+["2014","The Evolutionary Path of Cooperation Shown in Corporate Farms in Korea","Jibum Um · Shunsuke Yanagimura","Proceedings of the Agricultural Economics Society of Japan, 118–123","https://www.aesjapan.or.jp/wp/wp-content/uploads/2022/01/ronbunshu2014.pdf","한국 농업법인에서 나타난 협업의 발전 경로","엄지범 · 柳村俊介","日本農業経済学会論文集, 118–123"]
+];
+
+const ME=/^(Ji-Bum Um|Jibum Um|Jibum UM|엄지범)$/;
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const journal=v=>String(v||"").split(/, \d/)[0];
+const $=id=>document.getElementById(id);
+const PIN={en:"Pinned",ko:"고정",ja:"固定"};
+
+/* Built-in copy of the publication list: shown until the shared store answers, and to visitors the store does not serve. */
+const AREA_MAP={A:[1,2,4,9,14,17,20,26,33,34,35],B:[4,12,20,21,31,42,44,45,46],C:[3,8,11,15,17,18,21,24,25,26,33]};
+const areasOf=n=>Object.keys(AREA_MAP).filter(k=>AREA_MAP[k].includes(n));
+const STATIC_PUBS=P.map((p,i)=>({id:"p"+String(i+1).padStart(3,"0"),year:p[0],en:{t:p[1],a:p[2],v:p[3]},ko:{t:p[5],a:p[6],v:p[7]},url:p[4],order:i,areas:areasOf(i+1)}));
+const STATIC_PROFILE={nameKo:"엄지범",nameEn:"Ji-Bum Um",nameJa:"厳 智凡",
+ posKo:"국립순천대학교 농업경제학과 부교수",posEn:"Associate Professor, Department of Agricultural Economics, Sunchon National University",posJa:"国立順天大学校 農業経済学科 准教授",
+ email:"umjibum@scnu.ac.kr",scholar:"https://scholar.google.com/citations?user=tq0IlRKsSKIC&hl=en",bioKo:"",bioEn:"",bioJa:"",photo:"",
+ edu:[{p:"",ko:"홋카이도대학교 대학원농학원 박사",en:"PhD, Graduate School of Agriculture, Hokkaido University",ja:"北海道大学 大学院農学院 博士"}],
+ career:[{"p": "2024.03 –", "ko": "국립순천대학교 농업경제학과 부교수", "en": "Associate Professor, Department of Agricultural Economics, Sunchon National University", "ja": "国立順天大学校 農業経済学科 准教授"}, {"p": "2021.03 – 2024.02", "ko": "국립순천대학교 농업경제학과 조교수", "en": "Assistant Professor, Department of Agricultural Economics, Sunchon National University", "ja": "国立順天大学校 農業経済学科 助教授"}, {"p": "2019.03 – 2021.02", "ko": "전북대학교 강의초빙교수", "en": "Visiting Lecturer (Invited Teaching Professor), Jeonbuk National University", "ja": "全北大学校 講義招聘教授"}, {"p": "2019.03 – 2021.02", "ko": "한국농수산대학교 강사", "en": "Lecturer, Korea National University of Agriculture and Fisheries", "ja": "韓国農水産大学校 講師"}, {"p": "2016.08 – 2017.12", "ko": "농촌진흥청 전문연구원", "en": "Research Specialist, Rural Development Administration", "ja": "農村振興庁 専門研究員"}],
+ act:[{"p": "2026.10 –", "ko": "「농촌경제」 편집위원", "en": "Editorial Board Member, Nongchon Gyeongje (Journal of Rural Economics)", "ja": "『農村経済』編集委員"}, {"p": "2024.09 –", "ko": "Asian Journal of Business Environment 부편집위원장", "en": "Associate Editor-in-Chief, Asian Journal of Business Environment", "ja": "Asian Journal of Business Environment 副編集委員長"}, {"p": "2024.06 –", "ko": "전라남도 지방재정투자심사위원회 위원", "en": "Member, Local Finance Investment Review Committee, Jeollanam-do Province", "ja": "全羅南道 地方財政投資審査委員会 委員"}, {"p": "2024.03 –", "ko": "한국농식품정책학회 이사", "en": "Board Director, Korean Society of Agri-Food Policy", "ja": "韓国農食品政策学会 理事"}, {"p": "2024.03 –", "ko": "한국축산경영학회 편집위원", "en": "Editorial Board Member, Korean Society of Livestock Business Management", "ja": "韓国畜産経営学会 編集委員"}, {"p": "2023.01 –", "ko": "농림축산식품부 후계청년농 육성 정책협의체 위원", "en": "Member, Policy Council on Fostering Young Successor Farmers, Ministry of Agriculture, Food and Rural Affairs", "ja": "農林畜産食品部 後継青年農業者育成政策協議体 委員"}, {"p": "2022.06 –", "ko": "한국농촌지도학회 편집위원", "en": "Editorial Board Member, Korean Society of Agricultural Extension", "ja": "韓国農村指導学会 編集委員"}, {"p": "2022.02 –", "ko": "한국식품유통학회 이사", "en": "Board Director, Korean Society of Food Marketing Economics", "ja": "韓国食品流通学会 理事"}],award:[],course:[]};
+const STATIC_PROJECTS=[{"id": "j001", "year": "2025", "role": "lead", "titleKo": "예비농업인 표준교육과정 개발", "titleEn": "Development of a Standard Curriculum for Prospective Farmers", "titleJa": "予備農業者標準教育課程の開発", "funderKo": "농림수산식품교육문화정보원", "funderEn": "Korea Agency of Education, Promotion and Information Service in Food, Agriculture, Forestry and Fisheries", "funderJa": "農林水産食品教育文化情報院", "areas": ["A"], "order": 0}, {"id": "j002", "year": "2025", "role": "lead", "titleKo": "2025년 전략작물산업화사업 사업자 선정지원 용역", "titleEn": "Support for Selecting Operators of the 2025 Strategic Crop Industrialization Program", "titleJa": "2025年 戦略作物産業化事業の事業者選定支援", "funderKo": "한국농수산식품유통공사", "funderEn": "Korea Agro-Fisheries & Food Trade Corporation (aT)", "funderJa": "韓国農水産食品流通公社", "areas": ["B"], "order": 1}, {"id": "j003", "year": "2024", "role": "part", "titleKo": "청년농업인 육성 및 지원 관련 중장기 정책방향 및 과제", "titleEn": "Mid- to Long-term Policy Directions and Tasks for Fostering and Supporting Young Farmers", "titleJa": "青年農業者の育成・支援に関する中長期政策方向と課題", "funderKo": "농어업농어촌특별위원회", "funderEn": "Presidential Committee on Agriculture, Fisheries and Rural Policy", "funderJa": "農漁業農漁村特別委員会", "areas": ["A"], "order": 2}, {"id": "j004", "year": "2024", "role": "lead", "titleKo": "농업구조개선을 위한 공동영농모델 확대방안 연구", "titleEn": "Expanding Collective Farming Models for Agricultural Structural Improvement", "titleJa": "農業構造改善のための共同営農モデル拡大方策", "funderKo": "농림축산식품부", "funderEn": "Ministry of Agriculture, Food and Rural Affairs", "funderJa": "農林畜産食品部", "areas": ["B"], "order": 3}, {"id": "j005", "year": "2024", "role": "part", "titleKo": "농촌지도직 전문역량 교재 및 자기주도 학습도구 개발", "titleEn": "Professional Competency Textbooks and Self-directed Learning Tools for Agricultural Extension Officers", "titleJa": "農村指導職の専門力量教材および自己主導学習ツールの開発", "funderKo": "농촌진흥청", "funderEn": "Rural Development Administration", "funderJa": "農村振興庁", "areas": [], "order": 4}, {"id": "j006", "year": "2023", "role": "lead", "titleKo": "원예과 혁신밸리 경영데이터 수집분석 및 서비스 개발 용역", "titleEn": "Collecting and Analyzing Management Data and Developing Services for the Horticulture Innovation Valley", "titleJa": "園芸イノベーションバレーの経営データ収集・分析およびサービス開発", "funderKo": "전라북도", "funderEn": "Jeollabuk-do Province", "funderJa": "全羅北道", "areas": ["A", "C"], "order": 5}, {"id": "j007", "year": "2022", "role": "lead", "titleKo": "한국 농촌정책의 동향과 지역공헌형 농업법인의 전개", "titleEn": "Trends in Korean Rural Policy and the Development of Community-contributing Agricultural Corporations", "titleJa": "韓国農村政策の動向と地域貢献型農業法人の展開", "funderKo": "일본연구재단/세츠난대학", "funderEn": "Japan Research Foundation / Setsunan University", "funderJa": "日本研究財団/摂南大学", "areas": ["B"], "order": 6}, {"id": "j008", "year": "2022", "role": "lead", "titleKo": "경기도 친환경농산물 소득조사 및 활용방안 연구용역", "titleEn": "Income Survey of Environment-friendly Agricultural Products in Gyeonggi-do and Its Applications", "titleJa": "京畿道 親環境農産物の所得調査および活用方策", "funderKo": "경기도", "funderEn": "Gyeonggi-do Province", "funderJa": "京畿道", "areas": [], "order": 7}, {"id": "j009", "year": "2022", "role": "lead", "titleKo": "전주 농산물을 활용한 관광 가공식품 육성 용역", "titleEn": "Developing Tourism Processed Foods Using Jeonju Agricultural Products", "titleJa": "全州農産物を活用した観光加工食品の育成", "funderKo": "전주시", "funderEn": "Jeonju City", "funderJa": "全州市", "areas": [], "order": 8}];
+let projects=STATIC_PROJECTS.slice();
+let profile=JSON.parse(JSON.stringify(STATIC_PROFILE)), area="all";
+let pubs=STATIC_PUBS.slice(), members=[], notices=[];
+let db=null, assets=null, canEdit=false, editing=false, dbPubs=false;
+let lang="en", year="all", q="";
+try{const s=localStorage.getItem("apl-lang"); if(T[s]) lang=s;}catch(e){}
+
+const sortPubs=()=>pubs.sort((a,b)=>(+b.year)-(+a.year)||((a.order??0)-(b.order??0)));
+const pf=p=>lang==="ko"?(p.ko&&p.ko.t?p.ko:p.en||{}):(p.en&&p.en.t?p.en:p.ko||{});
+const pick=(o,k)=>lang==="ko"?(o[k+"Ko"]||o[k+"En"]||""):lang==="ja"?(o[k+"Ja"]||o[k+"En"]||o[k+"Ko"]||""):(o[k+"En"]||o[k+"Ko"]||"");
+function linkLabel(u){const L=T[lang]; if(!u) return ""; if(u.includes("doi.org/")) return L.doi+" "+u.split("doi.org/")[1]; if(/\.pdf($|\?)/i.test(u)) return L.pdf+" ↗"; return L.rec+" ↗";}
+const safeUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
+
+function stats(){
+  const L=T[lang], ys=pubs.map(p=>+p.year).filter(Boolean);
+  const first=Math.min(...ys), last=Math.max(...ys);
+  const journals=new Set(pubs.map(p=>journal((p.en&&p.en.v)||(p.ko&&p.ko.v)))).size;
+  const co=new Set(pubs.flatMap(p=>String((p.en&&p.en.a)||"").split(" · ")).map(s=>s.trim()).filter(n=>n&&!ME.test(n)&&n!=="Yu, Chan Ju")).size;
+  if($("stats")) $("stats").innerHTML=[[pubs.length,L.stPapers],[ys.length?last-first+1:0,L.stYears],[journals,L.stJournals],[co,L.stCo]]
+    .map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+  $("pubSummary").textContent=ys.length?L.pubSummary(pubs.length,first,last):"";
+}
+function renderRail(){
+  const L=T[lang], years=[...new Set(pubs.map(p=>p.year))];
+  const per=Object.fromEntries(years.map(y=>[y,pubs.filter(p=>p.year===y).length]));
+  const max=Math.max(1,...Object.values(per));
+  if(year!=="all"&&!per[year]) year="all";
+  const btn=(y,label,n,bar)=>`<button type="button" data-y="${esc(y)}" aria-pressed="${year===y}" ${y==="all"?'class="all"':""}><span>${esc(label)}</span>${bar?`<span class="bar"><i style="width:${(n/max*100).toFixed(0)}%"></i></span>`:""}<span>${n}</span></button>`;
+  $("rail").innerHTML=btn("all",L.all,pubs.length,false)+years.map(y=>btn(y,y,per[y],true)).join("");
+}
+function renderList(){
+  const L=T[lang], needle=q.trim().toLowerCase();
+  const rows=pubs.filter(p=>(area==="all"||(p.areas||[]).includes(area))&&(year==="all"||p.year===year)&&(!needle||JSON.stringify([p.en,p.ko,p.year]).toLowerCase().includes(needle)));
+  $("count").textContent=L.count(rows.length);
+  if(!rows.length){$("list").innerHTML=`<li class="empty">${L.none}</li>`;return;}
+  let html="",cur="";
+  for(const p of rows){
+    if(p.year!==cur){cur=p.year;html+=`<li class="yr">${esc(cur)}<small>${rows.filter(r=>r.year===cur).length}</small></li>`;}
+    const f=pf(p), u=safeUrl(p.url), j=journal(f.v);
+    const au=String(f.a||"").split(" · ").map(n=>ME.test(n.trim())?`<mark>${esc(n)}</mark>`:esc(n)).join(" · ");
+    const title=u?`<a href="${esc(u)}">${esc(f.t)} <span class="arr" aria-hidden="true">↗</span></a>`:esc(f.t);
+    html+=`<li class="paper"><h4>${title}</h4><div class="au">${au}</div><div class="meta"><i>${esc(j)}</i><span>${esc(String(f.v||"").slice(j.length+2))}</span>${u?`<a href="${esc(u)}">${esc(linkLabel(u))}</a>`:""}</div>
+    <div class="acts edit-only"><button type="button" class="mini" data-edit="pub" data-id="${esc(p.id)}">수정</button><button type="button" class="mini danger" data-del="pub" data-id="${esc(p.id)}">삭제</button></div></li>`;
+  }
+  $("list").innerHTML=html;
+}
+function renderChips(){
+  const L=T[lang], hue={A:"var(--field)",B:"var(--accent)",C:"var(--sprout)"};
+  const n=k=>pubs.filter(p=>(p.areas||[]).includes(k)).length;
+  $("achips").innerHTML=`<button type="button" data-area="all" aria-pressed="${area==="all"}">${esc(L.areaAll)}</button>`+
+    ["A","B","C"].map((k,i)=>`<button type="button" data-area="${k}" aria-pressed="${area===k}" style="--hue:${hue[k]}"><i>${k}</i>${esc(L.aShort[i])} · ${n(k)}</button>`).join("");
+}
+const ART={
+A:`<svg viewBox="0 0 240 150" aria-hidden="true"><g stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.2"><path d="M8 128h224M20 138h200M36 146h168"/></g>
+<path d="M70 128c0-30 2-52 4-74" fill="none" stroke="var(--sprout)" stroke-width="3" stroke-linecap="round"/>
+<path d="M73 98c-18-4-30-16-32-30 16 0 28 10 32 30zM74 80c14-6 28-4 38 6-14 8-28 6-38-6zM74 62c-12-8-16-20-12-32 12 6 16 18 12 32z" fill="var(--sprout)" fill-opacity=".85"/>
+<path d="M76 54c4-10 4-20 0-28" stroke="var(--field)" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="var(--field)"><ellipse cx="80" cy="30" rx="4" ry="7" transform="rotate(20 80 30)"/><ellipse cx="72" cy="38" rx="4" ry="7" transform="rotate(-25 72 38)"/><ellipse cx="81" cy="44" rx="4" ry="7" transform="rotate(25 81 44)"/></g>
+<path d="M172 128c0-12 1-20 2-28" fill="none" stroke="var(--sprout)" stroke-width="3" stroke-linecap="round"/>
+<path d="M173 108c-12-2-18-10-18-18 10 0 16 8 18 18zM174 100c10-6 20-6 26 0-8 6-18 6-26 0z" fill="var(--sprout)"/>
+<path d="M98 44c34-26 70-20 84 22" fill="none" stroke="var(--hue)" stroke-width="2" stroke-dasharray="5 5"/><path d="M176 58l7 10 4-12" fill="none" stroke="var(--hue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+B:`<svg viewBox="0 0 240 150" aria-hidden="true"><defs><pattern id="hb" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><path d="M0 0v6" stroke="var(--accent)" stroke-opacity=".45" stroke-width="1.4"/></pattern></defs>
+<g stroke="var(--ink)" stroke-opacity=".55" stroke-width="1.4" fill="url(#hb)"><path d="M14 18h62l-4 50H10z"/><path d="M86 16h68v52H82z"/><path d="M164 18h64l4 50h-72z"/><path d="M10 80h62l2 54H6z"/><path d="M82 80h72l-2 54H84z"/><path d="M160 80h72l4 54h-74z"/></g>
+<g stroke="var(--accent)" stroke-width="2"><path d="M42 44L120 74M120 42v32M196 44L120 74M40 108l80-34M118 108l2-34M198 108l-78-34"/></g>
+<g fill="var(--surface)" stroke="var(--accent)" stroke-width="2"><circle cx="42" cy="44" r="6"/><circle cx="120" cy="42" r="6"/><circle cx="196" cy="44" r="6"/><circle cx="40" cy="108" r="6"/><circle cx="118" cy="108" r="6"/><circle cx="198" cy="108" r="6"/></g>
+<circle cx="120" cy="74" r="15" fill="var(--accent)"/><path d="M111 78h18M113 78l2-7h10l3 7M114 80a3 3 0 1 0 0 .1M126 80a3 3 0 1 0 0 .1" stroke="var(--surface)" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`,
+C:`<svg viewBox="0 0 240 150" aria-hidden="true"><g stroke="var(--sprout)" stroke-width="1.6" stroke-opacity=".8" fill="none"><path d="M120 70L10 148M120 70L48 148M120 70L86 148M120 70L120 148M120 70L154 148M120 70L192 148M120 70L230 148"/></g>
+<path d="M0 70h240" stroke="var(--ink)" stroke-opacity=".3"/>
+<path d="M30 120c40-30 90-40 150-30" fill="none" stroke="var(--field)" stroke-width="2" stroke-dasharray="4 6"/>
+<g transform="translate(150 22)"><path d="M-22 6h44" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><rect x="-10" y="2" width="20" height="10" rx="3" fill="var(--ink)"/>
+<g stroke="var(--ink)" stroke-width="2"><path d="M-22 6v-5M22 6v-5"/></g><g fill="none" stroke="var(--sprout)" stroke-width="2"><ellipse cx="-22" cy="0" rx="11" ry="2.5"/><ellipse cx="22" cy="0" rx="11" ry="2.5"/></g>
+<g fill="none" stroke="var(--sprout)" stroke-width="1.6" stroke-linecap="round"><path d="M-8 20a12 12 0 0 0 16 0"/><path d="M-14 27a20 20 0 0 0 28 0"/><path d="M-20 34a28 28 0 0 0 40 0"/></g></g>
+<circle cx="180" cy="90" r="5" fill="var(--field)"/></svg>`};
+function renderAreas(){
+  const L=T[lang];
+  $("areas").innerHTML=["A","B","C"].map((k,i)=>{
+    const rel=pubs.filter(p=>(p.areas||[]).includes(k));
+    const reps=rel.slice(0,3).map(p=>{const f=pf(p),u=safeUrl(p.url);return `<a href="${esc(u||"#publications")}"><i>${esc(p.year)}</i><span>${esc(f.t)}</span></a>`;}).join("");
+    return `<article class="acard ${k.toLowerCase()}"><div class="art"><span class="letter">${k} / 0${i+1}</span><span class="cnt">${esc(L.cnt(rel.length))}</span>${ART[k]}</div>
+    <div class="bd"><div class="kick">${esc(L["a"+(i+1)+"k"])}</div><div class="tag">${esc(L["a"+(i+1)+"tag"])}</div><p class="d">${esc(L["a"+(i+1)+"d"])}</p>
+    <div class="kw">${L["a"+(i+1)].map(t=>`<span>${esc(t)}</span>`).join("")}</div>
+    ${rel.length?`<div class="rep"><b>${esc(L.rep)}</b>${reps}</div><button type="button" class="go" data-area="${k}" data-jump="1">${esc(L.relBtn(rel.length))}</button>`:""}</div></article>`;
+  }).join("");
+}
+const pickItem=it=>lang==="ko"?(it.ko||it.en||""):lang==="ja"?(it.ja||it.en||it.ko||""):(it.en||it.ko||"");
+function renderProfile(){
+  const L=T[lang], P_=profile;
+  const name=lang==="ko"?P_.nameKo:lang==="ja"?(P_.nameJa||P_.nameEn):P_.nameEn;
+  const alt=lang==="ko"?P_.nameEn:P_.nameKo;
+  const pos=lang==="ko"?P_.posKo:lang==="ja"?(P_.posJa||P_.posEn):P_.posEn;
+  const bio=lang==="ko"?P_.bioKo:lang==="ja"?(P_.bioJa||P_.bioEn||P_.bioKo):(P_.bioEn||P_.bioKo);
+  const ph=P_.photo?`<img src="/_blob/${encodeURIComponent(P_.photo)}" alt="${esc(name)}">`:`<span>${esc((P_.nameKo||"?").charAt(0))}</span>`;
+  const sch=safeUrl(P_.scholar);
+  const blocks=[["edu",L.cvEdu],["career",L.cvCareer],["act",L.cvAct],["award",L.cvAward],["course",L.cvCourse]]
+    .filter(([k])=>(P_[k]||[]).length)
+    .map(([k,t])=>`<div class="cvb"><h4>${esc(t)}</h4><ol>${P_[k].map(it=>it.p?`<li><span class="p">${esc(it.p)}</span><span>${esc(pickItem(it))}</span></li>`:`<li class="np"><span>${esc(pickItem(it))}</span></li>`).join("")}</ol></div>`).join("");
+  const sparse=["act","award","course"].every(k=>!(P_[k]||[]).length);
+  $("profBox").innerHTML=`<div class="pcard"><div class="pphoto">${ph}</div><div><h3>${esc(name)}</h3></div><div class="alt">${esc(alt)}</div><div class="pos">${esc(pos)}</div>
+    <div class="links">${P_.email?`<span>${esc(P_.email)}</span>`:""}${sch?`<a href="${esc(sch)}">Google Scholar ↗</a>`:""}</div>
+    <button type="button" class="mini edit-only" data-edit="profile" data-id="main">교수 정보 · 이력 수정</button></div>
+    <div class="cv">${bio?`<p class="bio">${esc(bio)}</p>`:""}${blocks}
+    ${sparse?`<div class="hint edit-only">학회·대외활동, 수상, 담당 과목, 상세 학력·경력 연도가 아직 비어 있습니다. 왼쪽의 "교수 정보 · 이력 수정"에서 채우면 바로 표시됩니다.</div>`:""}</div>`;
+}
+function projRow(p,compact){
+  const L=T[lang], t=pick(p,"title"), f=pick(p,"funder");
+  return `<li><span class="y">${esc(p.year)}</span><span class="r ${p.role==="part"?"part":"lead"}">${esc(p.role==="part"?L.rolePart:L.roleLead)}</span><span class="t">${esc(t)}<small>${esc(f)}</small></span>${compact?"":`<span class="ar">${(p.areas||[]).map(a=>`<span class="${esc(a)}" title="${esc(a)}">${esc(a)}</span>`).join("")}</span>
+  <div class="acts edit-only"><button type="button" class="mini" data-edit="project" data-id="${esc(p.id)}">수정</button><button type="button" class="mini danger" data-del="project" data-id="${esc(p.id)}">삭제</button></div>`}</li>`;
+}
+function renderProjects(){
+  const ps=projects.slice().sort((a,b)=>String(b.year).localeCompare(String(a.year))||((a.order??0)-(b.order??0)));
+  $("projList").innerHTML=ps.map(p=>projRow(p,false)).join("");
+  $("homeProj").innerHTML=ps.slice(0,3).map(p=>projRow(p,true)).join("");
+}
+function renderHome(){
+  const L=T[lang];
+  $("homeAreas").innerHTML=["A","B","C"].map((k,i)=>`<a class="ha ${k.toLowerCase()}" href="#research"><div class="art">${ART[k].replace(/id="hb"/g,'id="hb2"').replace(/url\(#hb\)/g,'url(#hb2)')}</div><div><b>${esc(L["a"+(i+1)+"k"])}</b><span>${esc(L["a"+(i+1)+"tag"])}</span></div></a>`).join("");
+  $("homePubs").innerHTML=pubs.slice(0,5).map(p=>{const f=pf(p),u=safeUrl(p.url);return `<li><i>${esc(p.year)}</i><div>${u?`<a href="${esc(u)}">${esc(f.t)}</a>`:esc(f.t)}<small>${esc(journal(f.v))}</small></div></li>`;}).join("");
+  const ns=notices.slice().sort((a,b)=>(!!b.pinned-!!a.pinned)||String(b.date).localeCompare(String(a.date))).slice(0,3);
+  $("homeNotices").innerHTML=ns.length?ns.map(n=>`<li><i>${esc(n.date)}</i><a href="#notices">${esc(pick(n,"title"))}</a></li>`).join(""):`<li class="none">${esc(L.noticeEmpty)}</li>`;
+}
+function renderPubs(){stats();renderRail();renderChips();renderList();renderAreas();renderHome();}
+
+function memberCard(m){
+  const name=pick(m,"name"), ini=(name||"?").trim().charAt(0);
+  const ph=m.photo?`<img src="/_blob/${encodeURIComponent(m.photo)}" alt="">`:esc(ini);
+  const lines=[[pick(m,"degree"),m.year].filter(Boolean).join(" · "),pick(m,"topic"),pick(m,"affil"),m.email].filter(Boolean);
+  return `<div class="mcard"><div class="ph">${ph}</div><div><b>${esc(name)}</b>${lines.map(l=>`<span>${esc(l)}</span>`).join("")}
+  <div class="acts edit-only"><button type="button" class="mini" data-edit="member" data-id="${esc(m.id)}">수정</button><button type="button" class="mini danger" data-del="member" data-id="${esc(m.id)}">삭제</button></div></div></div>`;
+}
+function renderMembers(){
+  const L=T[lang];
+  const st=members.filter(m=>m.kind!=="alumni").sort((a,b)=>String(a.year).localeCompare(String(b.year))||String(a.nameKo).localeCompare(String(b.nameKo)));
+  const al=members.filter(m=>m.kind==="alumni").sort((a,b)=>String(b.year).localeCompare(String(a.year)));
+  $("students").innerHTML=st.length?st.map(memberCard).join(""):`<p>${esc(L.gradsEmpty)}</p>`;
+  $("alumniList").innerHTML=al.length?al.map(memberCard).join(""):`<p>${esc(L.alumniEmpty)}</p>`;
+}
+function renderNotices(){ if(typeof renderHome==="function"&&$("homeNotices")) setTimeout(renderHome,0);
+  const L=T[lang];
+  const ns=notices.slice().sort((a,b)=>(!!b.pinned-!!a.pinned)||String(b.date).localeCompare(String(a.date)));
+  $("noticeList").innerHTML=ns.length?ns.map(n=>`<li class="notice"><div class="d">${esc(n.date)}${n.pinned?`<span class="pin">${PIN[lang]}</span>`:""}</div><h4>${esc(pick(n,"title"))}</h4>${pick(n,"body")?`<p>${esc(pick(n,"body"))}</p>`:""}
+    <div class="acts edit-only"><button type="button" class="mini" data-edit="notice" data-id="${esc(n.id)}">수정</button><button type="button" class="mini danger" data-del="notice" data-id="${esc(n.id)}">삭제</button></div></li>`).join("")
+    :`<li class="notice"><p>${esc(L.noticeEmpty)}</p></li>`;
+}
+
+function applyLang(){
+  const L=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(el=>{const v=L[el.dataset.i]; if(typeof v==="string") el.textContent=v;});
+  document.querySelectorAll("[data-tags]").forEach(el=>{el.innerHTML=L[el.dataset.tags].map(t=>`<span>${esc(t)}</span>`).join("");});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+  $("q").placeholder=L.search; $("q").setAttribute("aria-label",L.search);
+  document.title="농업정책연구실 · Agricultural Policy Research Lab (APRL)";
+  renderPubs(); renderProfile(); renderProjects(); renderMembers(); renderNotices(); drawFields();
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang;try{localStorage.setItem("apl-lang",lang);}catch(e){} applyLang();}));
+$("rail").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;year=b.dataset.y;renderRail();renderList();});
+$("q").addEventListener("input",e=>{q=e.target.value;renderList();});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-area]");if(!b)return;area=b.dataset.area;if(b.dataset.jump){year="all";renderRail();}renderChips();renderList();if(b.dataset.jump&&location.hash!=="#publications")location.hash="publications";});
+
+/* ---------- editing ---------- */
+let toastT;
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),2600);}
+function setEditing(on){editing=on;document.body.classList.toggle("editing",on);$("editToggle").setAttribute("aria-pressed",on);$("editToggle").textContent=on?"편집 중":"편집";}
+$("editToggle").addEventListener("click",()=>setEditing(!editing));
+$("editOff").addEventListener("click",()=>setEditing(false));
+
+const FORMS={
+ pub:{title:"논문",fields:[
+  {k:"year",l:"게재 연도",t:"number",req:1},{k:"url",l:"링크 (DOI 또는 KCI 주소)",t:"url"},{k:"areas",l:"연구 분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·공동영농"],["C","C 스마트농업·기술도입"]]},
+  {g:"국문 서지"},{k:"ko.t",l:"국문 제목",full:1},{k:"ko.a",l:"저자 (가운뎃점 · 으로 구분)",full:1},{k:"ko.v",l:"학술지, 권(호), 쪽",full:1},
+  {g:"영문 서지 (영어·일본어 화면에 표시)"},{k:"en.t",l:"영문 제목",full:1},{k:"en.a",l:"Authors (· 으로 구분)",full:1},{k:"en.v",l:"Journal, vol(no), pages",full:1}]},
+ member:{title:"구성원",fields:[
+  {k:"kind",l:"구분",t:"select",opts:[["student","대학원생"],["alumni","졸업생"]]},{k:"year",l:"입학 / 졸업 연도"},
+  {k:"nameKo",l:"이름 (국문)",req:1},{k:"nameEn",l:"이름 (영문)"},
+  {k:"degreeKo",l:"과정 (예: 석사과정)"},{k:"degreeEn",l:"Degree (e.g. MS student)"},
+  {k:"topicKo",l:"연구 주제",full:1},{k:"topicEn",l:"Research topic",full:1},
+  {k:"affilKo",l:"현재 소속 (졸업생)"},{k:"affilEn",l:"Current position"},
+  {k:"email",l:"이메일",t:"email"},{k:"photo",l:"사진",t:"file"}]},
+ profile:{title:"교수 정보",fields:[
+  {k:"nameKo",l:"이름 (국문)",req:1},{k:"nameEn",l:"Name (English)"},{k:"nameJa",l:"名前 (日本語)"},{k:"email",l:"이메일"},
+  {k:"posKo",l:"직위 (국문)",full:1},{k:"posEn",l:"Position (English)",full:1},{k:"posJa",l:"職位 (日本語)",full:1},
+  {k:"scholar",l:"Google Scholar 주소",t:"url",full:1},{k:"photo",l:"사진",t:"file",full:1},
+  {k:"bioKo",l:"소개글 (국문)",t:"area",full:1},{k:"bioEn",l:"Bio (English)",t:"area",full:1},
+  {g:"이력 · 한 줄에 한 항목:  기간 | 국문 | English | 日本語(선택)"},
+  {k:"edu",l:"학력",t:"lines",full:1},{k:"career",l:"경력",t:"lines",full:1},{k:"act",l:"학회 · 대외활동",t:"lines",full:1},
+  {k:"award",l:"수상",t:"lines",full:1},{k:"course",l:"담당 과목",t:"lines",full:1}]},
+ project:{title:"프로젝트",fields:[
+  {k:"year",l:"연도 (예: 2025 또는 2024–2025)",req:1},{k:"role",l:"역할",t:"select",opts:[["lead","연구책임자"],["part","공동연구원"]]},
+  {k:"titleKo",l:"과제명 (국문)",full:1,req:1},{k:"funderKo",l:"지원기관 (국문)",full:1},
+  {k:"titleEn",l:"Project title (English)",full:1},{k:"funderEn",l:"Funder (English)",full:1},
+  {k:"titleJa",l:"課題名 (日本語, 선택)",full:1},{k:"funderJa",l:"支援機関 (日本語, 선택)",full:1},
+  {k:"areas",l:"관련 연구분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·공동영농"],["C","C 스마트농업·기술도입"]]}]},
+ notice:{title:"공지",fields:[
+  {k:"date",l:"날짜",t:"date",req:1},{k:"pinned",l:"맨 위에 고정",t:"check"},
+  {k:"titleKo",l:"제목 (국문)",full:1,req:1},{k:"bodyKo",l:"내용 (국문)",t:"area",full:1},
+  {k:"titleEn",l:"Title (English)",full:1},{k:"bodyEn",l:"Body (English)",t:"area",full:1}]}
+};
+const getK=(o,k)=>k.split(".").reduce((a,s)=>a&&a[s],o);
+const listOf=kind=>kind==="project"?projects:kind==="pub"?pubs:kind==="member"?members:kind==="profile"?[{...profile,id:"main"}]:notices;
+const colOf=kind=>kind==="project"?"projects":kind==="pub"?"pubs":kind==="member"?"members":kind==="profile"?"profile":"notices";
+let dlgAction=null;
+
+function openForm(kind,id,preset){
+  const spec=FORMS[kind], cur=id?listOf(kind).find(x=>x.id===id):null, v=cur||preset||{};
+  $("dlgTitle").textContent=spec.title+(cur?" 수정":" 추가");
+  $("dlgOk").textContent="저장"; $("dlgOk").className="primary";
+  $("dlgBody").innerHTML=spec.fields.map((f,i)=>{
+    if(f.g) return `<div class="grp">${esc(f.g)}</div>`;
+    const id="f_"+i, val=getK(v,f.k)??(f.t==="date"?new Date().toISOString().slice(0,10):"");
+    const cls=f.full?' class="full"':"";
+    if(f.t==="select") return `<label${cls} for="${id}">${f.l}<select id="${id}" name="${f.k}">${f.opts.map(([o,t])=>`<option value="${o}"${val===o?" selected":""}>${t}</option>`).join("")}</select></label>`;
+    if(f.t==="multi") return `<div class="multi"><span>${f.l}</span>${f.opts.map(([o,t],j)=>`<label for="${id}_${j}"><input type="checkbox" id="${id}_${j}" name="${f.k}" value="${o}"${(Array.isArray(val)&&val.includes(o))?" checked":""}>${t}</label>`).join("")}</div>`;
+    if(f.t==="lines") return `<label${cls} for="${id}">${f.l}<textarea id="${id}" name="${f.k}" placeholder="2015.04 – 2019.03 | 홋카이도대학교 대학원농학원 박사 | PhD, Hokkaido University">${esc((Array.isArray(val)?val:[]).map(it=>[it.p||"",it.ko||"",it.en||"",it.ja||""].join(" | ").replace(/( \| )+$/,"")).join("\n"))}</textarea></label>`;
+    if(f.t==="area") return `<label${cls} for="${id}">${f.l}<textarea id="${id}" name="${f.k}">${esc(val)}</textarea></label>`;
+    if(f.t==="check") return `<label class="chk" for="${id}"><input type="checkbox" id="${id}" name="${f.k}"${val?" checked":""}>${f.l}</label>`;
+    if(f.t==="file") return assets?`<label${cls} for="${id}">${f.l}${cur&&cur.photo?" (새 파일을 고르면 바뀝니다)":""}<input type="file" id="${id}" name="${f.k}" accept="image/*"></label>`:"";
+    return `<label${cls} for="${id}">${f.l}${f.req?" *":""}<input id="${id}" name="${f.k}" type="${f.t||"text"}" value="${esc(val)}"></label>`;
+  }).join("");
+  dlgAction=async()=>{
+    const out=cur?JSON.parse(JSON.stringify(cur)):{}; delete out.id;
+    let file=null;
+    for(const f of spec.fields){ if(f.g) continue;
+      if(f.t==="multi"){out[f.k]=[...$("dlgBody").querySelectorAll(`[name="${f.k}"]:checked`)].map(x=>x.value);continue;}
+      const el=$("dlgBody").querySelector(`[name="${f.k}"]`); if(!el) continue;
+      if(f.t==="lines"){out[f.k]=el.value.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const c=l.split("|").map(x=>x.trim());return c.length===1?{p:"",ko:c[0],en:"",ja:""}:{p:c[0]||"",ko:c[1]||"",en:c[2]||"",ja:c[3]||""};});continue;}
+      if(f.t==="file"){file=el.files&&el.files[0];continue;}
+      const val=f.t==="check"?el.checked:el.value.trim();
+      const parts=f.k.split("."); let o=out; while(parts.length>1){const s=parts.shift();o[s]=o[s]||{};o=o[s];} o[parts[0]]=val;
+    }
+    for(const f of spec.fields) if(f.req&&!getK(out,f.k)) throw new Error(`"${f.l}" 항목을 입력해 주세요.`);
+    if(kind==="pub"&&!(out.ko&&out.ko.t)&&!(out.en&&out.en.t)) throw new Error("국문 또는 영문 제목을 입력해 주세요.");
+    if(kind==="pub"||kind==="project"){out.year=String(out.year); if(out.order==null) out.order=-Math.floor(Date.now()/1000);}
+    if(file){ const up=await assets.upload(file); out.photo=up.id; }
+    if(kind==="pub") await ensureSeed();
+    if(kind==="profile"){ await db.doc("profile/main").set(out); toast("저장했습니다"); return; }
+    const col=db.collection(colOf(kind));
+    await (cur?col.doc(cur.id):col.doc()).set(out);
+    toast("저장했습니다");
+  };
+  $("dlg").showModal();
+}
+function openDelete(kind,id){
+  const it=listOf(kind).find(x=>x.id===id); if(!it) return;
+  const name=kind==="project"?it.titleKo:kind==="pub"?pf(it).t:kind==="member"?it.nameKo:it.titleKo;
+  $("dlgTitle").textContent="삭제할까요?";
+  $("dlgBody").innerHTML=`<p class="msg">“${esc(name)}” 항목을 삭제합니다. 삭제하면 되돌릴 수 없습니다.</p>`;
+  $("dlgOk").textContent="삭제"; $("dlgOk").className="danger";
+  dlgAction=async()=>{ if(kind==="pub") await ensureSeed(); await db.collection(colOf(kind)).doc(id).delete(); toast("삭제했습니다"); };
+  $("dlg").showModal();
+}
+/* If the store has no publications yet, copy the built-in list in first so an edit never hides the other papers. */
+async function ensureSeed(){
+  if(dbPubs) return;
+  const snap=await db.collection("pubs").limit(1).get();
+  if(!snap.empty) return;
+  for(const p of STATIC_PUBS){const {id,...body}=p; await db.collection("pubs").doc(id).set(body);}
+}
+$("dlgCancel").addEventListener("click",()=>$("dlg").close());
+$("dlgForm").addEventListener("submit",async e=>{
+  e.preventDefault(); if(!dlgAction) return;
+  const ok=$("dlgOk"); ok.disabled=true;
+  try{ await dlgAction(); $("dlg").close(); }
+  catch(err){ toast(err&&err.code==="quota_exceeded"?"저장 공간이 가득 찼습니다. 오래된 항목을 지운 뒤 다시 시도해 주세요.":(err&&err.message&&!err.code?err.message:"저장하지 못했습니다. 잠시 후 다시 시도해 주세요.")); }
+  finally{ ok.disabled=false; }
+});
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-add]"), ed=e.target.closest("[data-edit]"), dl=e.target.closest("[data-del]");
+  if(!db||!canEdit) return;
+  if(a){const k=a.dataset.add; if(k==="student"||k==="alumni") openForm("member",null,{kind:k}); else openForm(k);}
+  if(ed) openForm(ed.dataset.edit,ed.dataset.id);
+  if(dl) openDelete(dl.dataset.del,dl.dataset.id);
+});
+
+(async()=>{
+  if(!window.claude||typeof window.claude.use!=="function") return;
+  const safe=p=>Promise.resolve(p).catch(()=>null);
+  const [d,u,a]=await Promise.all([safe(claude.use("db")),safe(claude.use("user")),safe(claude.use("assets"))]);
+  db=d; assets=a;
+  if(u){ try{ canEdit=!!(await u.canEdit()) || !!(await u.isOwner()); }catch(e){} }
+  if(db&&canEdit) $("editToggle").hidden=false;
+  if(!db) return;
+  const err=()=>{};
+  db.collection("pubs").onSnapshot(s=>{
+    if(!s.empty){ pubs=s.docs.map(x=>({id:x.id,...x.data()})); sortPubs(); dbPubs=true; renderPubs(); }
+    else if(!s.metadata.fromCache){ dbPubs=false; pubs=STATIC_PUBS.slice(); renderPubs(); }
+  },err);
+  db.collection("members").onSnapshot(s=>{members=s.docs.map(x=>({id:x.id,...x.data()}));renderMembers();},err);
+  db.collection("projects").onSnapshot(s=>{if(!s.empty){projects=s.docs.map(x=>({id:x.id,...x.data()}));renderProjects();}else if(!s.metadata.fromCache){projects=[];renderProjects();}},err);
+  db.doc("profile/main").onSnapshot(s=>{if(s.exists){profile={...JSON.parse(JSON.stringify(STATIC_PROFILE)),...s.data()};renderProfile();}},err);
+  db.collection("notices").onSnapshot(s=>{notices=s.docs.map(x=>({id:x.id,...x.data()}));renderNotices();},err);
+})();
+
+/* Paddy parcel map: irregular plots with planting rows; a few highlighted as surveyed farms. */
+function drawFields(){
+  const c=document.getElementById("fields"), box=c.getBoundingClientRect();
+  if(!box.width) return;
+  const dpr=window.devicePixelRatio||1; c.width=box.width*dpr; c.height=box.height*dpr;
+  const g=c.getContext("2d"); g.scale(dpr,dpr);
+  const cs=getComputedStyle(document.documentElement);
+  const col=k=>cs.getPropertyValue(k).trim();
+  const W=box.width,H=box.height;
+  let seed=7; const rnd=()=>((seed=(seed*16807)%2147483647)/2147483647);
+  g.fillStyle=col("--surface"); g.fillRect(0,0,W,H);
+  const cols=7, rows=6, jx=W/cols, jy=H/rows;
+  const pts=[];
+  for(let r=0;r<=rows;r++){pts[r]=[];for(let k=0;k<=cols;k++){
+    const edge=r===0||r===rows||k===0||k===cols;
+    pts[r][k]=[k*jx+(edge?0:(rnd()-.5)*jx*.45), r*jy+(edge?0:(rnd()-.5)*jy*.45)+ (k*jx)*0.06 - W*0.03];
+  }}
+  const hi=new Set(["1-4","2-1","3-5","4-2","2-3"]);
+  for(let r=0;r<rows;r++)for(let k=0;k<cols;k++){
+    const q=[pts[r][k],pts[r][k+1],pts[r+1][k+1],pts[r+1][k]];
+    const on=hi.has(r+"-"+k);
+    g.save(); g.beginPath(); q.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.closePath();
+    g.fillStyle=on?col("--accent-soft"):col("--surface"); g.fill(); g.clip();
+    const ang=(rnd()-.5)*0.9 + ((r+k)%2?Math.PI/2:0);
+    g.strokeStyle=on?col("--accent"):col("--line"); g.lineWidth=on?1.1:1;
+    const cx=(q[0][0]+q[2][0])/2, cy=(q[0][1]+q[2][1])/2, L=Math.max(jx,jy)*1.6, gap=on?6:7;
+    for(let d=-L;d<=L;d+=gap){
+      g.beginPath();
+      g.moveTo(cx+Math.cos(ang)*-L - Math.sin(ang)*d, cy+Math.sin(ang)*-L + Math.cos(ang)*d);
+      g.lineTo(cx+Math.cos(ang)*L - Math.sin(ang)*d, cy+Math.sin(ang)*L + Math.cos(ang)*d);
+      g.stroke();
+    }
+    g.restore();
+    g.beginPath(); q.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.closePath();
+    g.strokeStyle=col("--ink"); g.globalAlpha=.55; g.lineWidth=1.4; g.stroke(); g.globalAlpha=1;
+    if(on){
+      const m=[(q[0][0]+q[1][0]+q[2][0]+q[3][0])/4,(q[0][1]+q[1][1]+q[2][1]+q[3][1])/4];
+      g.fillStyle=col("--field"); g.beginPath(); g.arc(m[0],m[1],4.5,0,Math.PI*2); g.fill();
+      g.strokeStyle=col("--surface"); g.lineWidth=2; g.stroke();
+    }
+  }
+  /* irrigation channel */
+  g.strokeStyle=col("--accent"); g.lineWidth=2.2; g.globalAlpha=.8; g.beginPath();
+  for(let k=0;k<=cols;k++){const p=pts[3][k]; k?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]);} g.stroke(); g.globalAlpha=1;
+}
+let rt; window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawFields,120);});
+if(window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",drawFields);
+new MutationObserver(drawFields).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+const VIEWS=["home","research","professor","publications","members","notices"];
+let firstRoute=true;
+function route(){
+  const h=location.hash.slice(1), v=VIEWS.includes(h)?h:"home";
+  document.querySelectorAll(".view").forEach(el=>el.classList.toggle("on",el.dataset.view===v));
+  document.querySelectorAll("nav.main a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  if(v==="home") drawFields();
+  if(!firstRoute||h) window.scrollTo(0,0);
+  firstRoute=false;
+}
+window.addEventListener("hashchange",route);
+applyLang();
+route();
+</script>
+</body>
+</html>
