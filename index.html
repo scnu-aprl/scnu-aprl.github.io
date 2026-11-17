@@ -885,7 +885,7 @@ function openForm(kind,id,preset){
     for(const f of spec.fields){ if(f.g) continue;
       if(f.t==="multi"){out[f.k]=[...$("dlgBody").querySelectorAll(`[name="${f.k}"]:checked`)].map(x=>x.value);continue;}
       const el=$("dlgBody").querySelector(`[name="${f.k}"]`); if(!el) continue;
-      if(f.t==="lines"){out[f.k]=el.value.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const c=l.split("|").map(x=>x.trim());return c.length===1?{p:"",ko:c[0],en:"",ja:""}:{p:c[0]||"",ko:c[1]||"",en:c[2]||"",ja:c[3]||""};});continue;}
+      if(f.t==="lines"){out[f.k]=el.value.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const c=l.split("|").map(x=>x.trim());const it=c.length===1?{p:"",ko:c[0],en:"",ja:""}:{p:c[0]||"",ko:c[1]||"",en:c[2]||"",ja:c[3]||""};const old=((cur&&cur[f.k])||[]).find(o=>o.p===it.p||o.ko===it.ko);if(old)for(const x of ["thKo","thEn","thJa","thUrl"])if(old[x])it[x]=old[x];return it;});continue;}
       if(f.t==="file"){file=el.files&&el.files[0];continue;}
       const val=f.t==="check"?el.checked:el.value.trim();
       const parts=f.k.split("."); let o=out; while(parts.length>1){const s=parts.shift();o[s]=o[s]||{};o=o[s];} o[parts[0]]=val;
