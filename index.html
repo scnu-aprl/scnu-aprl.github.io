@@ -557,7 +557,7 @@ grads:"대학원생",gradsEmpty:"대학원생 소개가 아직 등록되지 않�
 noticeEmpty:"등록된 공지가 없습니다.",gradTitle:"연구실 합류 안내",
 gradText:"대학원 진학이나 연구지도를 희망하는 분은 간단한 자기소개, 관심 연구 주제, 희망 입학 시기를 이메일로 보내주세요. 외국인 지원자는 지원 예정 전형도 함께 알려주세요.",
 gradBtn:"이메일로 문의",footer:"농업정책연구실 (엄지범 교수) · 국립순천대학교 농업경제학과"},
-ja:{profLab:"厳 智凡 教授 研究室",projTitle:"主要プロジェクト",roleLead:"研究代表者",rolePart:"研究分担者",rl1:"農業人口の減少と高齢化が進むなか、これから誰が農業生産を担い、地域の生産基盤をどう引き継いでいくのか。これが私たちの研究の出発点です。",rl2:"私たちが描く農業の未来は、次の世代が農業に参入して経営基盤を築き、農業経営体が農地・労働力・農業機械を効率的に組み合わせ、新しい技術が現場の人手不足と作業負担を軽減する農業です。そのために、若手農業者と経営継承、農業法人と農業経営体、スマート農業と技術導入を研究し、現地調査と実証分析に基づいて、こうした変化を支える政策を模索しています。",navHome:"ホーム",more:"もっと見る →",recentPubs:"最近の論文",allPubs:"すべての論文 →",crumb:"農業政策研究室",brandSub:"APRL · 国立順天大学校",navProf:"教員紹介",
+ja:{profLab:"嚴 智凡 教授 研究室",projTitle:"主要プロジェクト",roleLead:"研究代表者",rolePart:"研究分担者",rl1:"農業人口の減少と高齢化が進むなか、これから誰が農業生産を担い、地域の生産基盤をどう引き継いでいくのか。これが私たちの研究の出発点です。",rl2:"私たちが描く農業の未来は、次の世代が農業に参入して経営基盤を築き、農業経営体が農地・労働力・農業機械を効率的に組み合わせ、新しい技術が現場の人手不足と作業負担を軽減する農業です。そのために、若手農業者と経営継承、農業法人と農業経営体、スマート農業と技術導入を研究し、現地調査と実証分析に基づいて、こうした変化を支える政策を模索しています。",navHome:"ホーム",more:"もっと見る →",recentPubs:"最近の論文",allPubs:"すべての論文 →",crumb:"農業政策研究室",brandSub:"APRL · 国立順天大学校",navProf:"教員紹介",
 researchSub:"現場で問い続けている三つのテーマ",
 a1k:"若手農業者・経営継承",a1tag:"これから誰が農業生産を担うのか",
 a2k:"農業法人・農業経営体",a2tag:"経営資源をどう組み合わせれば効率的か",
@@ -576,11 +576,11 @@ a1:["新規就農", "家族内継承", "雇用型就農", "農地・資本の確
 pubSummary:(n,a,b)=>`論文${n}件 · ${a}–${b}`,scholar:"Google Scholar プロフィール ↗",search:"タイトル・著者・掲載誌で検索",
 count:(n)=>`${n}件を表示`,all:"すべて",pubNote:"論文名はKCIまたは出版社の表記に従っています。全文の閲覧条件は学術誌によって異なります。",
 doi:"DOI",rec:"論文詳細",pdf:"PDFを読む",none:"該当する論文はありません。",
-initials:"厳",director:"指導教員",dirName:"厳 智凡（Ji-Bum Um）",dirPos:"国立順天大学校 農業経済学科 准教授",dirPhd:"北海道大学 大学院農学院 博士",
+initials:"嚴",director:"指導教員",dirName:"嚴 智凡（Ji-Bum Um）",dirPos:"国立順天大学校 農業経済学科 准教授",dirPhd:"北海道大学 大学院農学院 博士",
 grads:"大学院生",gradsEmpty:"大学院生のプロフィールは準備中です。",alumni:"修了生",alumniEmpty:"修了生のプロフィールは準備中です。",
 noticeEmpty:"現在、お知らせはありません。",gradTitle:"研究室への参加",
 gradText:"大学院への進学や研究指導を希望する方は、簡単な自己紹介、関心のある研究テーマ、希望する入学時期をメールでお知らせください。留学生の方は、出願予定の選考区分もお知らせいただけます。",
-gradBtn:"メールで問い合わせ",footer:"農業政策研究室（厳 智凡 教授）· 国立順天大学校 農業経済学科"}
+gradBtn:"メールで問い合わせ",footer:"農業政策研究室（嚴 智凡 教授）· 国立順天大学校 農業経済学科"}
 };
 
 const P=[
@@ -632,7 +632,7 @@ const P=[
 ["2014","The Evolutionary Path of Cooperation Shown in Corporate Farms in Korea","Jibum Um · Shunsuke Yanagimura","Proceedings of the Agricultural Economics Society of Japan, 118–123","https://www.aesjapan.or.jp/wp/wp-content/uploads/2022/01/ronbunshu2014.pdf","한국 농업법인에서 나타난 협업의 발전 경로","엄지범 · 柳村俊介","日本農業経済学会論文集, 118–123"]
 ];
 
-const ME=/^(Ji-Bum Um|Jibum Um|Jibum UM|엄지범)$/;
+const ME=/^(Ji-Bum Um|Jibum Um|Jibum UM|엄지범|嚴智凡|嚴 智凡)$/;
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const journal=v=>String(v||"").split(/, \d/)[0];
 const $=id=>document.getElementById(id);
@@ -642,7 +642,12 @@ const PIN={en:"Pinned",ko:"고정",ja:"固定"};
 const AREA_MAP={A:[1,2,4,9,14,17,20,26,33,34,35],B:[4,12,20,21,31,42,44,45,46],C:[3,8,11,15,17,18,21,24,25,26,33]};
 const areasOf=n=>Object.keys(AREA_MAP).filter(k=>AREA_MAP[k].includes(n));
 const STATIC_PUBS=P.map((p,i)=>({id:"p"+String(i+1).padStart(3,"0"),year:p[0],en:{t:p[1],a:p[2],v:p[3]},ko:{t:p[5],a:p[6],v:p[7]},url:p[4],order:i,areas:areasOf(i+1)}));
-const STATIC_PROFILE={nameKo:"엄지범",nameEn:"Ji-Bum Um",nameJa:"厳 智凡",
+/* Japanese-language papers: original Japanese bibliographic data, shown on the Korean and Japanese pages. */
+const JA_PUBS={
+ p042:{t:"韓国における農業法人の形成・展開とその組織原理 :「作目班」型農業法人からの脱却",a:"嚴智凡",v:"北海道大学大学院農学研究院邦文紀要, 35(2), 9–65"},
+ p044:{t:"韓国における農村社会の再生と農業法人の展開条件 ―6次産業化によるマウルづくりを対象に―",a:"嚴智凡 · 柳村俊介 · 蘇淳烈",v:"農業経済研究, 88(4), 455–460"}};
+STATIC_PUBS.forEach(p=>{if(JA_PUBS[p.id]) p.ja=JA_PUBS[p.id];});
+const STATIC_PROFILE={nameKo:"엄지범",nameEn:"Ji-Bum Um",nameJa:"嚴 智凡",
  posKo:"국립순천대학교 농업경제학과 부교수",posEn:"Associate Professor, Department of Agricultural Economics, Sunchon National University",posJa:"国立順天大学校 農業経済学科 准教授",
  email:"umjibum@scnu.ac.kr",scholar:"https://scholar.google.com/citations?user=tq0IlRKsSKIC&hl=en",bioKo:"",bioEn:"",bioJa:"",photo:"",photoUrl:"img/professor.jpg",
  edu:[{p:"",ko:"홋카이도대학교 대학원농학원 박사",en:"PhD, Graduate School of Agriculture, Hokkaido University",ja:"北海道大学 大学院農学院 博士"}],
@@ -657,7 +662,7 @@ let lang="en", year="all", q="";
 try{const s=localStorage.getItem("apl-lang"); if(T[s]) lang=s;}catch(e){}
 
 const sortPubs=()=>pubs.sort((a,b)=>(+b.year)-(+a.year)||((a.order??0)-(b.order??0)));
-const pf=p=>lang==="ko"?(p.ko&&p.ko.t?p.ko:p.en||{}):(p.en&&p.en.t?p.en:p.ko||{});
+const pf=p=>(lang!=="en"&&p.ja&&p.ja.t)?p.ja:lang==="ko"?(p.ko&&p.ko.t?p.ko:p.en||{}):(p.en&&p.en.t?p.en:p.ko||{});
 const pick=(o,k)=>lang==="ko"?(o[k+"Ko"]||o[k+"En"]||""):lang==="ja"?(o[k+"Ja"]||o[k+"En"]||o[k+"Ko"]||""):(o[k+"En"]||o[k+"Ko"]||"");
 function linkLabel(u){const L=T[lang]; if(!u) return ""; if(u.includes("doi.org/")) return L.doi+" "+u.split("doi.org/")[1]; if(/\.pdf($|\?)/i.test(u)) return L.pdf+" ↗"; return L.rec+" ↗";}
 const safeUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
