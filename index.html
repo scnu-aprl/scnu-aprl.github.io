@@ -797,7 +797,7 @@ function renderProfile(){
   const sch=safeUrl(P_.scholar);
   const blocks=[["edu",L.cvEdu],["career",L.cvCareer],["act",L.cvAct],["award",L.cvAward],["course",L.cvCourse]]
     .filter(([k])=>(P_[k]||[]).length)
-    .map(([k,t])=>`${k==="act"?'<div id="booksBox"></div>':""}<div class="cvb"><h4>${esc(t)}</h4><ol>${P_[k].map(it=>{const th=lang==="ko"?it.thKo:lang==="ja"?(it.thJa||it.thEn):(it.thEn||it.thKo);const tu=safeUrl(it.thUrl);const thH=th?`<small class="th">${tu?`<a href="${esc(tu)}">${esc(th)} ↗</a>`:esc(th)}</small>`:"";return it.p?`<li><span class="p">${esc(it.p)}</span><span>${esc(pickItem(it))}${thH}</span></li>`:`<li class="np"><span>${esc(pickItem(it))}${thH}</span></li>`;}).join("")}</ol></div>`).join("");
+    .map(([k,t])=>`<div class="cvb"><h4>${esc(t)}</h4><ol>${P_[k].map(it=>{const th=lang==="ko"?it.thKo:lang==="ja"?(it.thJa||it.thEn):(it.thEn||it.thKo);const tu=safeUrl(it.thUrl);const thH=th?`<small class="th">${tu?`<a href="${esc(tu)}">${esc(th)} ↗</a>`:esc(th)}</small>`:"";return it.p?`<li><span class="p">${esc(it.p)}</span><span>${esc(pickItem(it))}${thH}</span></li>`:`<li class="np"><span>${esc(pickItem(it))}${thH}</span></li>`;}).join("")}</ol></div>${k==="act"?'<div id="booksBox"></div>':""}`).join("");
   const sparse=["act","award","course"].every(k=>!(P_[k]||[]).length);
   $("profBox").innerHTML=`<div class="pcard"><div class="pphoto">${ph}</div><div><h3>${esc(name)}</h3></div><div class="alt">${esc(alt)}</div><div class="pos">${esc(pos)}</div>
     <div class="links">${P_.email?`<span>${esc(P_.email)}</span>`:""}${sch?`<a href="${esc(sch)}">Google Scholar ↗</a>`:""}</div>
