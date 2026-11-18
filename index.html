@@ -328,6 +328,7 @@ ol.plist{list-style:none;margin:0;padding:0}
 .plist .ar span{font-family:var(--mono);font-size:.7rem;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:600}
 .plist .ar .A{background:color-mix(in srgb,var(--field) 22%,var(--surface));color:var(--field)}
 .plist .ar .B{background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent)}
+.plist .ar .E{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
 .plist .ar .D{background:color-mix(in srgb,var(--plum) 16%,var(--surface));color:var(--plum)}
 .plist .ar .C{background:color-mix(in srgb,var(--sprout) 18%,var(--surface));color:var(--sprout)}
 .plist li .acts{grid-column:3/-1}
@@ -536,7 +537,7 @@ researchSub:"Three questions we keep returning to in the field",
 a1k:"Young farmers & farm succession",a1tag:"Who will be responsible for agricultural production in the future?",
 a2k:"Agricultural corporations & farm business entities",a2tag:"How should farm resources be combined for efficiency?",
 a3k:"Smart farming & technology adoption",a3tag:"Which technologies take root in the field?",
-aShort:["Young farmers", "Farm business entities", "Smart farming","Consumer acceptance"],areaAll:"All areas",
+aShort:["Young farmers", "Farm business entities", "Smart farming","Consumer acceptance","Other"],areaAll:"All areas",
 rep:"Selected papers",relBtn:n=>`See all ${n} related papers →`,cnt:n=>`${n} papers`,
 cvEdu:"Education",cvCareer:"Career",cvAct:"Service & affiliations",cvAward:"Awards",cvCourse:"Teaching",
 labName:"Agricultural Policy Research Lab",univ:"Sunchon National University",navResearch:"Research",navPubs:"Publications",navMembers:"Members",navNotices:"Notices",
@@ -560,7 +561,7 @@ researchSub:"현장에서 계속 붙들고 있는 세 가지 질문",
 a1k:"청년농업인 · 영농승계",a1tag:"앞으로 누가 농업생산을 책임질 것인가",
 a2k:"농업법인 · 농업경영체",a2tag:"경영자원을 어떻게 결합해야 효율적인가",
 a3k:"스마트농업 · 기술 도입",a3tag:"어떤 기술이 현장에 자리 잡는가",
-aShort:["청년농·영농승계", "농업법인·농업경영체", "스마트농업·기술도입","소비자 수용"],areaAll:"전체 분야",
+aShort:["청년농·영농승계", "농업법인·농업경영체", "스마트농업·기술도입","소비자 수용","기타"],areaAll:"전체 분야",
 rep:"대표 논문",relBtn:n=>`관련 논문 ${n}편 모두 보기 →`,cnt:n=>`논문 ${n}편`,
 cvEdu:"학력",cvCareer:"경력",cvAct:"학회 · 대외활동",cvAward:"수상",cvCourse:"담당 과목",
 labName:"농업정책연구실",univ:"국립순천대학교",navResearch:"연구 분야",navPubs:"논문",navMembers:"구성원",navNotices:"공지",
@@ -584,7 +585,7 @@ researchSub:"現場で問い続けている三つのテーマ",
 a1k:"若手農業者・経営継承",a1tag:"これから誰が農業生産を担うのか",
 a2k:"農業法人・農業経営体",a2tag:"経営資源をどう組み合わせれば効率的か",
 a3k:"スマート農業・技術導入",a3tag:"どの技術が現場に根づくのか",
-aShort:["若手農業者", "農業法人・経営体", "スマート農業","消費者受容"],areaAll:"すべての分野",
+aShort:["若手農業者", "農業法人・経営体", "スマート農業","消費者受容","その他"],areaAll:"すべての分野",
 rep:"代表論文",relBtn:n=>`関連論文${n}件をすべて見る →`,cnt:n=>`論文${n}件`,
 cvEdu:"学歴",cvCareer:"職歴",cvAct:"学会・社会活動",cvAward:"受賞",cvCourse:"担当科目",
 labName:"農業政策研究室",univ:"国立順天大学校",navResearch:"研究分野",navPubs:"研究業績",navMembers:"研究室メンバー",navNotices:"お知らせ",
@@ -661,7 +662,7 @@ const $=id=>document.getElementById(id);
 const PIN={en:"Pinned",ko:"고정",ja:"固定"};
 
 /* Built-in copy of the publication list: shown until the shared store answers, and to visitors the store does not serve. */
-const AREA_MAP={A:[1,2,4,9,14,17,20,26,33,34,35],B:[4,12,20,21,31,42,44,45,46],C:[3,8,11,15,17,18,21,24,25,26,33],D:[6,10,13,16,19,22,23,28,32]};
+const AREA_MAP={A:[1,2,4,9,14,17,20,26,29,33,34,35],B:[4,5,7,12,20,21,27,31,37,38,39,41,42,43,44,45,46],C:[3,5,8,11,15,17,18,21,24,25,26,33],D:[6,10,13,16,19,22,23,28,30,32],E:[36,40]};
 const areasOf=n=>Object.keys(AREA_MAP).filter(k=>AREA_MAP[k].includes(n));
 const STATIC_PUBS=P.map((p,i)=>({id:"p"+String(i+1).padStart(3,"0"),year:p[0],en:{t:p[1],a:p[2],v:p[3]},ko:{t:p[5],a:p[6],v:p[7]},url:p[4],order:i,areas:areasOf(i+1)}));
 /* Japanese-language papers: original Japanese bibliographic data, shown on the Korean and Japanese pages. */
@@ -726,10 +727,10 @@ function renderList(){
   $("list").innerHTML=html;
 }
 function renderChips(){
-  const L=T[lang], hue={A:"var(--field)",B:"var(--accent)",C:"var(--sprout)",D:"var(--plum)"};
+  const L=T[lang], hue={A:"var(--field)",B:"var(--accent)",C:"var(--sprout)",D:"var(--plum)",E:"var(--muted)"};
   const n=k=>pubs.filter(p=>(p.areas||[]).includes(k)).length;
   $("achips").innerHTML=`<button type="button" data-area="all" aria-pressed="${area==="all"}">${esc(L.areaAll)}</button>`+
-    ["A","B","C","D"].map((k,i)=>`<button type="button" data-area="${k}" aria-pressed="${area===k}" style="--hue:${hue[k]}"><i>${k}</i>${esc(L.aShort[i])} · ${n(k)}</button>`).join("");
+    ["A","B","C","D","E"].map((k,i)=>`<button type="button" data-area="${k}" aria-pressed="${area===k}" style="--hue:${hue[k]}"><i>${k}</i>${esc(L.aShort[i])} · ${n(k)}</button>`).join("");
 }
 const ART={
 A:`<svg viewBox="0 0 240 150" aria-hidden="true"><g stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.2"><path d="M8 128h224M20 138h200M36 146h168"/></g>
@@ -854,7 +855,7 @@ $("editOff").addEventListener("click",()=>setEditing(false));
 
 const FORMS={
  pub:{title:"논문",fields:[
-  {k:"year",l:"게재 연도",t:"number",req:1},{k:"url",l:"링크 (DOI 또는 KCI 주소)",t:"url"},{k:"areas",l:"연구 분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·농업경영체"],["C","C 스마트농업·기술도입"],["D","D 소비자 수용(연계)"]]},
+  {k:"year",l:"게재 연도",t:"number",req:1},{k:"url",l:"링크 (DOI 또는 KCI 주소)",t:"url"},{k:"areas",l:"연구 분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·농업경영체"],["C","C 스마트농업·기술도입"],["D","D 소비자 수용(연계)"],["E","기타"]]},
   {g:"국문 서지"},{k:"ko.t",l:"국문 제목",full:1},{k:"ko.a",l:"저자 (가운뎃점 · 으로 구분)",full:1},{k:"ko.v",l:"학술지, 권(호), 쪽",full:1},
   {g:"영문 서지 (영어·일본어 화면에 표시)"},{k:"en.t",l:"영문 제목",full:1},{k:"en.a",l:"Authors (· 으로 구분)",full:1},{k:"en.v",l:"Journal, vol(no), pages",full:1}]},
  member:{title:"구성원",fields:[
@@ -877,7 +878,7 @@ const FORMS={
   {k:"titleKo",l:"과제명 (국문)",full:1,req:1},{k:"funderKo",l:"지원기관 (국문)",full:1},
   {k:"titleEn",l:"Project title (English)",full:1},{k:"funderEn",l:"Funder (English)",full:1},
   {k:"titleJa",l:"課題名 (日本語, 선택)",full:1},{k:"funderJa",l:"支援機関 (日本語, 선택)",full:1},
-  {k:"areas",l:"관련 연구분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·농업경영체"],["C","C 스마트농업·기술도입"],["D","D 소비자 수용(연계)"]]}]},
+  {k:"areas",l:"관련 연구분야",t:"multi",opts:[["A","A 청년농·영농승계"],["B","B 농업법인·농업경영체"],["C","C 스마트농업·기술도입"],["D","D 소비자 수용(연계)"],["E","기타"]]}]},
  notice:{title:"공지",fields:[
   {k:"date",l:"날짜",t:"date",req:1},{k:"pinned",l:"맨 위에 고정",t:"check"},
   {k:"titleKo",l:"제목 (국문)",full:1,req:1},{k:"bodyKo",l:"내용 (국문)",t:"area",full:1},
