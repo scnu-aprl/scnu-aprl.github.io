@@ -669,7 +669,10 @@ const P=[
 ["2017","An Explanation of the Regional Agriculture Problem Structure for the Establishment of Regional Agriculture Management Plan －Focusing on the Case of Hongseong-gun－","Ji-Bum Um · Young-Mo Hwang","Korean Journal of Food Marketing Economics, 34(4), 31–47","https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002301715","농정거버넌스의 지역농업 매니지먼트 계획수립에 있어 지역농업 문제구조의 해명－홍성군 사례를 중심으로－","엄지범 · 황영모","식품유통연구, 34(4), 31–47"],
 ["2017","Development Conditions for an Agricultural Corporation and Regeneration of Rural Society in South Korea: A Case Study of Community Building in the Sixth Industrialization","Jibum Um · Shunsuke Yanagimura · Soon-Yeol Soh","Journal of Rural Economics, 88(4), 455–460","https://doi.org/10.11472/nokei.88.455","한국 농업법인의 발전 조건과 농촌사회의 재생","엄지범 · 柳村俊介 · 소순열","農業経済研究, 88(4), 455–460"],
 ["2017","Organizing an Incorporated Farm Based on Teulnyeok in Korea: A Case of F Farm Founded by Small Number of Farmers Operating a Large Farm","Jibum Um · Shunsuke Yanagimura · Ga-ok Cho","Japanese Journal of Farm Management, 54(4), 102–107","https://doi.org/10.11300/fmsj.54.4_102","한국 들녘경영체의 조직화 원리 ―소수의 대규모 농가가 설립한 F농업법인을 사례로―","엄지범 · 柳村俊介 · 조가옥","農業経営研究, 54(4), 102–107"],
-["2014","The Evolutionary Path of Cooperation Shown in Corporate Farms in Korea","Jibum Um · Shunsuke Yanagimura","Proceedings of the Agricultural Economics Society of Japan, 118–123","https://www.aesjapan.or.jp/wp/wp-content/uploads/2022/01/ronbunshu2014.pdf","한국 농업법인에서 나타난 협업의 발전 경로","엄지범 · 柳村俊介","日本農業経済学会論文集, 118–123"]
+["2014","The Evolutionary Path of Cooperation Shown in Corporate Farms in Korea","Jibum Um · Shunsuke Yanagimura","Proceedings of the Agricultural Economics Society of Japan, 118–123","https://www.aesjapan.or.jp/wp/wp-content/uploads/2022/01/ronbunshu2014.pdf","한국 농업법인에서 나타난 협업의 발전 경로","엄지범 · 柳村俊介","日本農業経済学会論文集, 118–123"],
+["2026", "Structural Relationships among Perceived Value, Organizational Innovativeness, and ESG Management Adoption Intention among Rural Convergence Industry Enterprises: Focusing on Jeollanam-do Region", "Gyeong-Jun Jo · Kyung-Hwan Song · Ji-Bum Um", "Journal of Agricultural Extension & Community Development, 33(3), 163–181", "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003393205", "농촌융복합산업 경영체의 ESG 경영 도입의도에 대한 지각된 가치와 조직 혁신성의 구조적 관계 분석 －전남 지역 경영체를 중심으로－", "조경준 · 송경환 · 엄지범", "농촌지도와 개발, 33(3), 163–181"],
+["2025", "Satisfaction Factors of Agricultural Machinery Rental Service for Farmers: Jangseong-gun as an Example", "Geun-Ho Shim · Ji-Bum Um", "Journal of the Korea Academia-Industrial Cooperation Society, 26(8), 155–166", "https://doi.org/10.5762/KAIS.2025.26.8.155", "농기계임대사업소에 대한 농가의 만족 요인 분석: 장성군을 사례로", "심근호 · 엄지범", "한국산학기술학회논문지, 26(8), 155–166"],
+["2025", "An Analysis of Factors Influencing Purchase Intention of Sprout Peanut Products Based on the Theory of Consumption Values", "Ji-Min Seo · Gyeong-Jun Jo · Ji-Bum Um", "Korean Journal of Food Marketing Economics, 42(2), 65–91", "https://doi.org/10.47085/KJFME.42.2.3", "소비 가치 이론에 기반한 새싹땅콩 제품의 구매 의도 결정 요인 분석", "서지민 · 조경준 · 엄지범", "식품유통연구, 42(2), 65–91"]
 ];
 
 const ME=/^(Ji-Bum Um|Jibum Um|Jibum UM|엄지범|嚴智凡|嚴 智凡)$/;
@@ -679,9 +682,10 @@ const $=id=>document.getElementById(id);
 const PIN={en:"Pinned",ko:"고정",ja:"固定"};
 
 /* Built-in copy of the publication list: shown until the shared store answers, and to visitors the store does not serve. */
-const AREA_MAP={A:[1,2,4,9,14,17,20,26,29,33,34,35],B:[4,5,7,12,20,21,27,31,37,38,39,41,42,43,44,45,46],C:[3,5,8,11,15,17,18,21,24,25,26,33],D:[6,10,13,16,19,22,23,28,30,32],E:[36,40]};
+const AREA_MAP={A:[1,2,4,9,14,17,20,26,29,33,34,35],B:[4,5,7,12,20,21,27,31,37,38,39,41,42,43,44,45,46,47,48],C:[3,5,8,11,15,17,18,21,24,25,26,33],D:[6,10,13,16,19,22,23,28,30,32,49],E:[36,40]};
 const areasOf=n=>Object.keys(AREA_MAP).filter(k=>AREA_MAP[k].includes(n));
 const STATIC_PUBS=P.map((p,i)=>({id:"p"+String(i+1).padStart(3,"0"),year:p[0],en:{t:p[1],a:p[2],v:p[3]},ko:{t:p[5],a:p[6],v:p[7]},url:p[4],order:i,areas:areasOf(i+1)}));
+{const ORD={p047:-1,p048:5.3,p049:5.6};STATIC_PUBS.forEach(p=>{if(p.id in ORD)p.order=ORD[p.id];});STATIC_PUBS.sort((a,b)=>(+b.year)-(+a.year)||(a.order-b.order));}
 /* Japanese-language papers: original Japanese bibliographic data, shown on the Korean and Japanese pages. */
 const JA_PUBS={
  p042:{t:"韓国における農業法人の形成・展開とその組織原理 :「作目班」型農業法人からの脱却",a:"嚴智凡",v:"北海道大学大学院農学研究院邦文紀要, 35(2), 9–65"},
