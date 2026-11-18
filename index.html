@@ -356,6 +356,18 @@ ol.plist{list-style:none;margin:0;padding:0}
 .linked .go:hover{background:var(--plum);color:var(--surface)}
 @media (max-width:920px){.linked{grid-template-columns:1fr}}
 
+.books .bk-h{margin-top:4px}
+.books .bk-h h3{font-family:var(--body);font-size:1.05rem;font-weight:600}
+ol.blist{list-style:none;margin:0 0 28px;padding:0}
+.blist li{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.blist .y{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.blist b{display:block;font-weight:600;line-height:1.45}
+.blist b a{text-decoration:none}
+.blist b a:hover{color:var(--accent);text-decoration:underline}
+.blist span{display:block;font-size:.88rem;color:var(--muted);margin-top:3px}
+.plist .plink{color:var(--accent);text-decoration:none;font-weight:500}
+.plist .plink:hover{text-decoration:underline}
+
 footer{margin-top:clamp(72px,10vw,120px);border-top:1px solid var(--line);padding:28px 0 40px;font-size:var(--s-1);color:var(--muted)}
 footer .wrap{display:flex;gap:16px 32px;flex-wrap:wrap;justify-content:space-between}
 footer a{color:var(--muted)}
@@ -488,6 +500,7 @@ footer a{color:var(--muted)}
           <span class="count" id="count" aria-live="polite"></span>
           <button type="button" class="btn solid edit-only" data-add="pub">+ 논문 추가</button>
         </div>
+        <div class="books" id="booksBox"></div>
         <div class="achips" id="achips" role="group" aria-label="Filter by research area"></div>
         <p class="note" data-i="pubNote"></p>
         <ol class="list" id="list"></ol>
@@ -532,7 +545,7 @@ footer a{color:var(--muted)}
 
 <script>
 const T={
-en:{dKick:"Related research",dTitle:"Agri-food markets & consumer acceptance",dDesc:"For new production methods and products to take hold, consumers must accept them. We analyze how consumers perceive the value of agri-food products that emerge from changes on the farm, such as low-carbon certified foods, rice-based processed foods, and alternative proteins, and what drives their purchase intentions.",dKw:["Low-carbon certified food","Rice-based foods","Alternative proteins","Senior-friendly food","Local food","Purchase intention"],profLab:"Led by Prof. Ji-Bum Um",projTitle:"Major projects",roleLead:"Principal investigator",rolePart:"Co-investigator",rl1:"Our lab studies the structural problems of agriculture. As the farm population declines and aging deepens, our research starts from a question: who will take responsibility for agricultural production, and how will regions sustain their production base?",rl2:"We examine the conditions under which young farmers can enter agriculture and keep farming, how farm households and agricultural corporations can combine land, labor, and machinery efficiently, and the circumstances in which new agricultural technologies can reduce production costs and workloads. Drawing on field surveys and empirical analysis, we give concrete shape to a future in which regional agriculture passes to the next generation, and explore the policies needed to realize it.",navHome:"Home",more:"More →",recentPubs:"Recent papers",allPubs:"All papers →",crumb:"APRL",brandSub:"APRL · Sunchon National University",navProf:"Professor",
+en:{booksTitle:"Books",papersTitle:"Journal articles",roleAuthor:{solo:"Author",co:"Co-author",ed:"Editor",tr:"Translator"},projLink:"Report",dKick:"Related research",dTitle:"Agri-food markets & consumer acceptance",dDesc:"For new production methods and products to take hold, consumers must accept them. We analyze how consumers perceive the value of agri-food products that emerge from changes on the farm, such as low-carbon certified foods, rice-based processed foods, and alternative proteins, and what drives their purchase intentions.",dKw:["Low-carbon certified food","Rice-based foods","Alternative proteins","Senior-friendly food","Local food","Purchase intention"],profLab:"Led by Prof. Ji-Bum Um",projTitle:"Major projects",roleLead:"Principal investigator",rolePart:"Co-investigator",rl1:"Our lab studies the structural problems of agriculture. As the farm population declines and aging deepens, our research starts from a question: who will take responsibility for agricultural production, and how will regions sustain their production base?",rl2:"We examine the conditions under which young farmers can enter agriculture and keep farming, how farm households and agricultural corporations can combine land, labor, and machinery efficiently, and the circumstances in which new agricultural technologies can reduce production costs and workloads. Drawing on field surveys and empirical analysis, we give concrete shape to a future in which regional agriculture passes to the next generation, and explore the policies needed to realize it.",navHome:"Home",more:"More →",recentPubs:"Recent papers",allPubs:"All papers →",crumb:"APRL",brandSub:"APRL · Sunchon National University",navProf:"Professor",
 researchSub:"Three questions we keep returning to in the field",
 a1k:"Young farmers & farm succession",a1tag:"Who will be responsible for agricultural production in the future?",
 a2k:"Agricultural corporations & farm business entities",a2tag:"How should farm resources be combined for efficiency?",
@@ -556,7 +569,7 @@ grads:"Graduate students",gradsEmpty:"Student profiles have yet to be added.",al
 noticeEmpty:"No announcements have been posted yet.",gradTitle:"Join the lab",
 gradText:"If you are interested in graduate study or research supervision, email a brief introduction, your research interests, and your intended entry term. International applicants are welcome to include their planned application route.",
 gradBtn:"Email the lab",footer:"Agricultural Policy Research Lab (Prof. Ji-Bum Um) · Department of Agricultural Economics · Sunchon National University"},
-ko:{dKick:"연계 연구",dTitle:"농식품 시장 · 소비자 수용",dDesc:"새로운 생산 방식과 품목이 시장에서 자리 잡으려면 소비자의 수용이 뒷받침되어야 합니다. 저탄소 인증 식품, 쌀 가공식품, 대체 단백질 등 농업 현장의 변화가 만들어 내는 농식품에 대한 소비자의 가치 인식과 구매 의도를 분석합니다.",dKw:["저탄소 인증 식품","쌀 가공식품","대체 단백질","고령친화식품","로컬푸드","구매의도"],profLab:"엄지범 교수 연구실",projTitle:"주요 프로젝트",roleLead:"연구책임자",rolePart:"공동연구원",rl1:"우리 연구실은 농업의 구조 문제를 연구합니다. 농업인구가 감소하고 고령화가 심화되는 가운데, 앞으로 누가 농업생산을 책임지고 지역의 생산 기반을 어떻게 이어갈 것인가가 연구의 출발점입니다.",rl2:"청년농업인이 농업에 진입하고 영농을 이어갈 수 있는 조건, 농가와 농업법인이 농지·노동력·농기계를 효율적으로 결합하는 방식, 새로운 농업기술이 생산비와 작업 부담을 줄일 수 있는 여건을 살펴봅니다. 현장 조사와 실증분석을 바탕으로 지역농업이 다음 세대로 이어지는 우리 농업의 미래상을 구체화하고, 이를 실현할 정책을 모색합니다.",navHome:"홈",more:"더 보기 →",recentPubs:"최근 논문",allPubs:"전체 논문 →",crumb:"농업정책연구실",brandSub:"APRL · 국립순천대학교",navProf:"교수 소개",
+ko:{booksTitle:"저서",papersTitle:"학술논문",roleAuthor:{solo:"단독",co:"공저",ed:"편저",tr:"역서"},projLink:"보고서",dKick:"연계 연구",dTitle:"농식품 시장 · 소비자 수용",dDesc:"새로운 생산 방식과 품목이 시장에서 자리 잡으려면 소비자의 수용이 뒷받침되어야 합니다. 저탄소 인증 식품, 쌀 가공식품, 대체 단백질 등 농업 현장의 변화가 만들어 내는 농식품에 대한 소비자의 가치 인식과 구매 의도를 분석합니다.",dKw:["저탄소 인증 식품","쌀 가공식품","대체 단백질","고령친화식품","로컬푸드","구매의도"],profLab:"엄지범 교수 연구실",projTitle:"주요 프로젝트",roleLead:"연구책임자",rolePart:"공동연구원",rl1:"우리 연구실은 농업의 구조 문제를 연구합니다. 농업인구가 감소하고 고령화가 심화되는 가운데, 앞으로 누가 농업생산을 책임지고 지역의 생산 기반을 어떻게 이어갈 것인가가 연구의 출발점입니다.",rl2:"청년농업인이 농업에 진입하고 영농을 이어갈 수 있는 조건, 농가와 농업법인이 농지·노동력·농기계를 효율적으로 결합하는 방식, 새로운 농업기술이 생산비와 작업 부담을 줄일 수 있는 여건을 살펴봅니다. 현장 조사와 실증분석을 바탕으로 지역농업이 다음 세대로 이어지는 우리 농업의 미래상을 구체화하고, 이를 실현할 정책을 모색합니다.",navHome:"홈",more:"더 보기 →",recentPubs:"최근 논문",allPubs:"전체 논문 →",crumb:"농업정책연구실",brandSub:"APRL · 국립순천대학교",navProf:"교수 소개",
 researchSub:"현장에서 계속 붙들고 있는 세 가지 질문",
 a1k:"청년농업인 · 영농승계",a1tag:"앞으로 누가 농업생산을 책임질 것인가",
 a2k:"농업법인 · 농업경영체",a2tag:"경영자원을 어떻게 결합해야 효율적인가",
@@ -580,7 +593,7 @@ grads:"대학원생",gradsEmpty:"대학원생 소개가 아직 등록되지 않�
 noticeEmpty:"등록된 공지가 없습니다.",gradTitle:"연구실 합류 안내",
 gradText:"대학원 진학이나 연구지도를 희망하는 분은 간단한 자기소개, 관심 연구 주제, 희망 입학 시기를 이메일로 보내주세요. 외국인 지원자는 지원 예정 전형도 함께 알려주세요.",
 gradBtn:"이메일로 문의",footer:"농업정책연구실 (엄지범 교수) · 국립순천대학교 농업경제학과"},
-ja:{dKick:"関連研究",dTitle:"農食品市場・消費者受容",dDesc:"新しい生産方式や品目が市場に定着するには、消費者の受容が欠かせません。低炭素認証食品、米加工食品、代替たんぱく質など、農業現場の変化から生まれる農食品について、消費者の価値認識と購買意図を分析します。",dKw:["低炭素認証食品","米加工食品","代替たんぱく質","高齢者向け食品","ローカルフード","購買意図"],profLab:"嚴 智凡 教授 研究室",projTitle:"主要プロジェクト",roleLead:"研究代表者",rolePart:"研究分担者",rl1:"当研究室は農業の構造問題を研究しています。農業人口の減少と高齢化が深刻化するなか、これから誰が農業生産を担い、地域の生産基盤をどう引き継いでいくのか。これが私たちの研究の出発点です。",rl2:"若手農業者が農業に参入し営農を続けられる条件、農家と農業法人が農地・労働力・農業機械を効率的に組み合わせる方式、新しい農業技術が生産費と作業負担を軽減できる条件を検討します。現地調査と実証分析に基づき、地域農業が次の世代へと引き継がれる農業の将来像を具体化し、それを実現するための政策を模索しています。",navHome:"ホーム",more:"もっと見る →",recentPubs:"最近の論文",allPubs:"すべての論文 →",crumb:"農業政策研究室",brandSub:"APRL · 国立順天大学校",navProf:"教員紹介",
+ja:{booksTitle:"著書",papersTitle:"学術論文",roleAuthor:{solo:"単著",co:"共著",ed:"編著",tr:"翻訳"},projLink:"報告書",dKick:"関連研究",dTitle:"農食品市場・消費者受容",dDesc:"新しい生産方式や品目が市場に定着するには、消費者の受容が欠かせません。低炭素認証食品、米加工食品、代替たんぱく質など、農業現場の変化から生まれる農食品について、消費者の価値認識と購買意図を分析します。",dKw:["低炭素認証食品","米加工食品","代替たんぱく質","高齢者向け食品","ローカルフード","購買意図"],profLab:"嚴 智凡 教授 研究室",projTitle:"主要プロジェクト",roleLead:"研究代表者",rolePart:"研究分担者",rl1:"当研究室は農業の構造問題を研究しています。農業人口の減少と高齢化が深刻化するなか、これから誰が農業生産を担い、地域の生産基盤をどう引き継いでいくのか。これが私たちの研究の出発点です。",rl2:"若手農業者が農業に参入し営農を続けられる条件、農家と農業法人が農地・労働力・農業機械を効率的に組み合わせる方式、新しい農業技術が生産費と作業負担を軽減できる条件を検討します。現地調査と実証分析に基づき、地域農業が次の世代へと引き継がれる農業の将来像を具体化し、それを実現するための政策を模索しています。",navHome:"ホーム",more:"もっと見る →",recentPubs:"最近の論文",allPubs:"すべての論文 →",crumb:"農業政策研究室",brandSub:"APRL · 国立順天大学校",navProf:"教員紹介",
 researchSub:"現場で問い続けている三つのテーマ",
 a1k:"若手農業者・経営継承",a1tag:"これから誰が農業生産を担うのか",
 a2k:"農業法人・農業経営体",a2tag:"経営資源をどう組み合わせれば効率的か",
@@ -680,6 +693,8 @@ const STATIC_PROFILE={nameKo:"엄지범",nameEn:"Ji-Bum Um",nameJa:"嚴 智凡",
  act:[{"p": "2026.10 –", "ko": "「농촌경제」 편집위원", "en": "Editorial Board Member, Journal of Rural Development (Nongchon Gyeongje), Korea Rural Economic Institute", "ja": "『農村経済』(韓国農村経済研究院) 編集委員"}, {"p": "2024.09 –", "ko": "Asian Journal of Business Environment 부편집위원장", "en": "Associate Editor-in-Chief, Asian Journal of Business Environment", "ja": "Asian Journal of Business Environment 副編集委員長"}, {"p": "2024.06 –", "ko": "전라남도 지방재정투자심사위원회 위원", "en": "Member, Local Finance Investment Review Committee, Jeollanam-do", "ja": "全羅南道 地方財政投資審査委員会 委員"}, {"p": "2024.03 –", "ko": "한국농식품정책학회 이사", "en": "Board Director, Korean Association of Agricultural and Food Policy (KAAFP)", "ja": "韓国農食品政策学会 理事"}, {"p": "2024.03 –", "ko": "한국축산경영학회 편집위원", "en": "Editorial Board Member, Korean Association of Livestock Management (KALM)", "ja": "韓国畜産経営学会 編集委員"}, {"p": "2023.01 –", "ko": "농림축산식품부 후계청년농 육성 정책협의체 위원", "en": "Member, Policy Council on Fostering Young Successor Farmers, Ministry of Agriculture, Food and Rural Affairs (MAFRA)", "ja": "農林畜産食品部 後継青年農業者育成政策協議体 委員"}, {"p": "2022.06 –", "ko": "한국농촌지도학회 편집위원", "en": "Editorial Board Member, Korean Society of Agricultural Extension", "ja": "韓国農村指導学会 編集委員"}, {"p": "2022.02 –", "ko": "한국식품유통학회 이사", "en": "Board Director, Korean Society of Food Marketing Economics", "ja": "韓国食品流通学会 理事"}],award:[],course:[]};
 const STATIC_PROJECTS=[{"id": "j001", "year": "2025", "role": "lead", "titleKo": "예비농업인 표준교육과정 개발", "titleEn": "Development of a Standard Curriculum for Prospective Farmers", "titleJa": "予備農業者標準教育課程の開発", "funderKo": "농림수산식품교육문화정보원", "funderEn": "Korea Agency of Education, Promotion and Information Service in Food, Agriculture, Forestry and Fisheries", "funderJa": "農林水産食品教育文化情報院", "areas": ["A"], "order": 0}, {"id": "j002", "year": "2025", "role": "lead", "titleKo": "2025년 전략작물산업화사업 사업자 선정지원 용역", "titleEn": "Support for Selecting Operators of the 2025 Strategic Crop Industrialization Program", "titleJa": "2025年 戦略作物産業化事業の事業者選定支援", "funderKo": "한국농수산식품유통공사", "funderEn": "Korea Agro-Fisheries & Food Trade Corporation (aT)", "funderJa": "韓国農水産食品流通公社", "areas": ["B"], "order": 1}, {"id": "j003", "year": "2024", "role": "part", "titleKo": "청년농업인 육성 및 지원 관련 중장기 정책방향 및 과제", "titleEn": "Mid- to Long-term Policy Directions and Tasks for Fostering and Supporting Young Farmers", "titleJa": "青年農業者の育成・支援に関する中長期政策方向と課題", "funderKo": "농어업농어촌특별위원회", "funderEn": "Presidential Committee on Agriculture, Fisheries and Rural Policy", "funderJa": "農漁業農漁村特別委員会", "areas": ["A"], "order": 2}, {"id": "j004", "year": "2024", "role": "lead", "titleKo": "농업구조개선을 위한 공동영농모델 확대방안 연구", "titleEn": "Expanding Collective Farming Models for Agricultural Structural Improvement", "titleJa": "農業構造改善のための共同営農モデル拡大方策", "funderKo": "농림축산식품부", "funderEn": "Ministry of Agriculture, Food and Rural Affairs", "funderJa": "農林畜産食品部", "areas": ["B"], "order": 3}, {"id": "j005", "year": "2024", "role": "part", "titleKo": "농촌지도직 전문역량 교재 및 자기주도 학습도구 개발", "titleEn": "Professional Competency Textbooks and Self-directed Learning Tools for Agricultural Extension Officers", "titleJa": "農村指導職の専門力量教材および自己主導学習ツールの開発", "funderKo": "농촌진흥청", "funderEn": "Rural Development Administration", "funderJa": "農村振興庁", "areas": ["A"], "order": 4}, {"id": "j006", "year": "2023", "role": "lead", "titleKo": "원예과 혁신밸리 경영데이터 수집분석 및 서비스 개발 용역", "titleEn": "Collecting and Analyzing Management Data and Developing Services for the Horticulture Innovation Valley", "titleJa": "園芸イノベーションバレーの経営データ収集・分析およびサービス開発", "funderKo": "전라북도", "funderEn": "Jeollabuk-do Province", "funderJa": "全羅北道", "areas": ["A", "C"], "order": 5}, {"id": "j007", "year": "2022", "role": "lead", "titleKo": "한국 농촌정책의 동향과 지역공헌형 농업법인의 전개", "titleEn": "Trends in Korean Rural Policy and the Development of Community-contributing Agricultural Corporations", "titleJa": "韓国農村政策の動向と地域貢献型農業法人の展開", "funderKo": "일본연구재단/세츠난대학", "funderEn": "Japan Research Foundation / Setsunan University", "funderJa": "日本研究財団/摂南大学", "areas": ["B"], "order": 6}, {"id": "j008", "year": "2022", "role": "lead", "titleKo": "경기도 친환경농산물 소득조사 및 활용방안 연구용역", "titleEn": "Income Survey of Environment-friendly Agricultural Products in Gyeonggi-do and Its Applications", "titleJa": "京畿道 親環境農産物の所得調査および活用方策", "funderKo": "경기도", "funderEn": "Gyeonggi-do Province", "funderJa": "京畿道", "areas": ["B"], "order": 7}, {"id": "j009", "year": "2022", "role": "lead", "titleKo": "전주 농산물을 활용한 관광 가공식품 육성 용역", "titleEn": "Developing Tourism Processed Foods Using Jeonju Agricultural Products", "titleJa": "全州農産物を活用した観光加工食品の育成", "funderKo": "전주시", "funderEn": "Jeonju City", "funderJa": "全州市", "areas": ["D"], "order": 8}];
 let projects=STATIC_PROJECTS.slice();
+const STATIC_BOOKS=[];
+let books=STATIC_BOOKS.slice();
 let profile=JSON.parse(JSON.stringify(STATIC_PROFILE)), area="all";
 let pubs=STATIC_PUBS.slice(), members=[], notices=[];
 let db=null, assets=null, canEdit=false, editing=false, dbPubs=false;
@@ -792,8 +807,16 @@ function renderProfile(){
 }
 function projRow(p,compact){
   const L=T[lang], t=pick(p,"title"), f=pick(p,"funder");
-  return `<li><span class="y">${esc(p.year)}</span><span class="r ${p.role==="part"?"part":"lead"}">${esc(p.role==="part"?L.rolePart:L.roleLead)}</span><span class="t">${esc(t)}<small>${esc(f)}</small></span>${compact?"":`<span class="ar">${(p.areas||[]).map(a=>`<span class="${esc(a)}" title="${esc(a)}">${esc(a)}</span>`).join("")}</span>
+  return `<li><span class="y">${esc(p.year)}</span><span class="r ${p.role==="part"?"part":"lead"}">${esc(p.role==="part"?L.rolePart:L.roleLead)}</span><span class="t">${esc(t)}<small>${esc(f)}${safeUrl(p.url)?` · <a class="plink" href="${esc(safeUrl(p.url))}">${esc(L.projLink)} ↗</a>`:""}</small></span>${compact?"":`<span class="ar">${(p.areas||[]).map(a=>`<span class="${esc(a)}" title="${esc(a)}">${esc(a)}</span>`).join("")}</span>
   <div class="acts edit-only"><button type="button" class="mini" data-edit="project" data-id="${esc(p.id)}">수정</button><button type="button" class="mini danger" data-del="project" data-id="${esc(p.id)}">삭제</button></div>`}</li>`;
+}
+function renderBooks(){
+  const L=T[lang], bs=books.slice().sort((a,b)=>String(b.year).localeCompare(String(a.year))||((a.order??0)-(b.order??0)));
+  const show=bs.length||editing;
+  $("booksBox").innerHTML=show?`<div class="hh bk-h"><h3>${esc(L.booksTitle)}</h3><button type="button" class="mini edit-only" data-add="book">+ 저서 추가</button></div>
+  <ol class="blist">${bs.map(b=>{const u=safeUrl(b.url);const t=pick(b,"title");return `<li><span class="y">${esc(b.year)}</span><div><b>${u?`<a href="${esc(u)}">${esc(t)} ↗</a>`:esc(t)}</b><span>${esc(pick(b,"authors"))}${b.role?` (${esc((L.roleAuthor||{})[b.role]||"")})`:""} · ${esc(pick(b,"publisher"))}</span>
+  <div class="acts edit-only"><button type="button" class="mini" data-edit="book" data-id="${esc(b.id)}">수정</button><button type="button" class="mini danger" data-del="book" data-id="${esc(b.id)}">삭제</button></div></div></li>`;}).join("")}</ol>
+  <div class="hh bk-h"><h3>${esc(L.papersTitle)}</h3></div>`:"";
 }
 function renderProjects(){
   const ps=projects.slice().sort((a,b)=>String(b.year).localeCompare(String(a.year))||((a.order??0)-(b.order??0)));
@@ -839,7 +862,7 @@ function applyLang(){
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
   $("q").placeholder=L.search; $("q").setAttribute("aria-label",L.search);
   document.title="농업정책연구실 · Agricultural Policy Research Lab (APRL)";
-  renderPubs(); renderProfile(); renderProjects(); renderMembers(); renderNotices(); drawFields();
+  renderPubs(); renderProfile(); renderProjects(); renderBooks(); renderMembers(); renderNotices(); drawFields();
 }
 document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang;try{localStorage.setItem("apl-lang",lang);}catch(e){} applyLang();}));
 $("rail").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;year=b.dataset.y;renderRail();renderList();});
@@ -849,7 +872,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-area]");if
 /* ---------- editing ---------- */
 let toastT;
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),2600);}
-function setEditing(on){editing=on;document.body.classList.toggle("editing",on);$("editToggle").setAttribute("aria-pressed",on);$("editToggle").textContent=on?"편집 중":"편집";}
+function setEditing(on){editing=on;setTimeout(renderBooks,0);document.body.classList.toggle("editing",on);$("editToggle").setAttribute("aria-pressed",on);$("editToggle").textContent=on?"편집 중":"편집";}
 $("editToggle").addEventListener("click",()=>setEditing(!editing));
 $("editOff").addEventListener("click",()=>setEditing(false));
 
@@ -877,16 +900,21 @@ const FORMS={
   {k:"year",l:"연도 (예: 2025 또는 2024–2025)",req:1},{k:"role",l:"역할",t:"select",opts:[["lead","연구책임자"],["part","공동연구원"]]},
   {k:"titleKo",l:"과제명 (국문)",full:1,req:1},{k:"funderKo",l:"지원기관 (국문)",full:1},
   {k:"titleEn",l:"Project title (English)",full:1},{k:"funderEn",l:"Funder (English)",full:1},
-  {k:"titleJa",l:"課題名 (日本語, 선택)",full:1},{k:"funderJa",l:"支援機関 (日本語, 선택)",full:1},
+  {k:"titleJa",l:"課題名 (日本語, 선택)",full:1},{k:"funderJa",l:"支援機関 (日本語, 선택)",full:1},{k:"url",l:"보고서·자료 링크 (선택)",t:"url",full:1},
   {k:"areas",l:"관련 연구분야",t:"multi",opts:[["A","A 청년농 육성"],["B","B 농업경영체"],["C","C 신기술 도입"],["D","D 소비자 수용"],["E","기타"]]}]},
+ book:{title:"저서",fields:[
+  {k:"year",l:"출판 연도",req:1},{k:"role",l:"구분",t:"select",opts:[["co","공저"],["solo","단독"],["ed","편저"],["tr","역서"]]},
+  {k:"titleKo",l:"서명 (국문)",full:1,req:1},{k:"authorsKo",l:"저자 (가운뎃점 · 으로 구분)",full:1},{k:"publisherKo",l:"출판사",full:1},
+  {k:"titleEn",l:"Title (English)",full:1},{k:"authorsEn",l:"Authors (English)",full:1},{k:"publisherEn",l:"Publisher (English)",full:1},
+  {k:"titleJa",l:"書名 (日本語, 선택)",full:1},{k:"url",l:"링크 (서점·출판사, 선택)",t:"url",full:1}]},
  notice:{title:"공지",fields:[
   {k:"date",l:"날짜",t:"date",req:1},{k:"pinned",l:"맨 위에 고정",t:"check"},
   {k:"titleKo",l:"제목 (국문)",full:1,req:1},{k:"bodyKo",l:"내용 (국문)",t:"area",full:1},
   {k:"titleEn",l:"Title (English)",full:1},{k:"bodyEn",l:"Body (English)",t:"area",full:1}]}
 };
 const getK=(o,k)=>k.split(".").reduce((a,s)=>a&&a[s],o);
-const listOf=kind=>kind==="project"?projects:kind==="pub"?pubs:kind==="member"?members:kind==="profile"?[{...profile,id:"main"}]:notices;
-const colOf=kind=>kind==="project"?"projects":kind==="pub"?"pubs":kind==="member"?"members":kind==="profile"?"profile":"notices";
+const listOf=kind=>kind==="book"?books:kind==="project"?projects:kind==="pub"?pubs:kind==="member"?members:kind==="profile"?[{...profile,id:"main"}]:notices;
+const colOf=kind=>kind==="book"?"books":kind==="project"?"projects":kind==="pub"?"pubs":kind==="member"?"members":kind==="profile"?"profile":"notices";
 let dlgAction=null;
 
 function openForm(kind,id,preset){
@@ -918,7 +946,7 @@ function openForm(kind,id,preset){
     }
     for(const f of spec.fields) if(f.req&&!getK(out,f.k)) throw new Error(`"${f.l}" 항목을 입력해 주세요.`);
     if(kind==="pub"&&!(out.ko&&out.ko.t)&&!(out.en&&out.en.t)) throw new Error("국문 또는 영문 제목을 입력해 주세요.");
-    if(kind==="pub"||kind==="project"){out.year=String(out.year); if(out.order==null) out.order=-Math.floor(Date.now()/1000);}
+    if(kind==="pub"||kind==="project"||kind==="book"){out.year=String(out.year); if(out.order==null) out.order=-Math.floor(Date.now()/1000);}
     if(file){ const up=await assets.upload(file); out.photo=up.id; }
     if(kind==="pub") await ensureSeed();
     if(kind==="profile"){ await db.doc("profile/main").set(out); toast("저장했습니다"); return; }
@@ -930,7 +958,7 @@ function openForm(kind,id,preset){
 }
 function openDelete(kind,id){
   const it=listOf(kind).find(x=>x.id===id); if(!it) return;
-  const name=kind==="project"?it.titleKo:kind==="pub"?pf(it).t:kind==="member"?it.nameKo:it.titleKo;
+  const name=kind==="book"?it.titleKo:kind==="project"?it.titleKo:kind==="pub"?pf(it).t:kind==="member"?it.nameKo:it.titleKo;
   $("dlgTitle").textContent="삭제할까요?";
   $("dlgBody").innerHTML=`<p class="msg">“${esc(name)}” 항목을 삭제합니다. 삭제하면 되돌릴 수 없습니다.</p>`;
   $("dlgOk").textContent="삭제"; $("dlgOk").className="danger";
@@ -974,6 +1002,7 @@ document.addEventListener("click",e=>{
     else if(!s.metadata.fromCache){ dbPubs=false; pubs=STATIC_PUBS.slice(); renderPubs(); }
   },err);
   db.collection("members").onSnapshot(s=>{members=s.docs.map(x=>({id:x.id,...x.data()}));renderMembers();},err);
+  db.collection("books").onSnapshot(s=>{books=s.docs.map(x=>({id:x.id,...x.data()}));renderBooks();},err);
   db.collection("projects").onSnapshot(s=>{if(!s.empty){projects=s.docs.map(x=>({id:x.id,...x.data()}));renderProjects();}else if(!s.metadata.fromCache){projects=[];renderProjects();}},err);
   db.doc("profile/main").onSnapshot(s=>{if(s.exists){profile={...JSON.parse(JSON.stringify(STATIC_PROFILE)),...s.data()};renderProfile();}},err);
   db.collection("notices").onSnapshot(s=>{notices=s.docs.map(x=>({id:x.id,...x.data()}));renderNotices();},err);
