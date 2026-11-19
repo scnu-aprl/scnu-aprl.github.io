@@ -852,7 +852,8 @@ function memberCard(m){
 function renderMembers(){
   const L=T[lang];
   const st=members.filter(m=>m.kind!=="alumni").sort((a,b)=>String(a.year).localeCompare(String(b.year))||String(a.nameKo).localeCompare(String(b.nameKo)));
-  const al=members.filter(m=>m.kind==="alumni").sort((a,b)=>String(b.year).localeCompare(String(a.year)));
+  const ym=y=>{const [Y,M]=String(y||"").split(".");return (+Y||0)*100+(+M||0);};
+  const al=members.filter(m=>m.kind==="alumni").sort((a,b)=>ym(b.year)-ym(a.year)||((a.order??99)-(b.order??99))||String(a.nameKo).localeCompare(String(b.nameKo),"ko"));
   $("students").innerHTML=st.length?st.map(memberCard).join(""):`<p>${esc(L.gradsEmpty)}</p>`;
   $("alumniList").innerHTML=al.length?al.map(memberCard).join(""):`<p>${esc(L.alumniEmpty)}</p>`;
 }
